@@ -5,7 +5,7 @@
     using QuickGraph;
 
     public abstract class QuickGraphGraph<T>
-        : IGraph<T>
+        : IPathFinder<T>
     {
         protected readonly IVertexAndEdgeListGraph<T, QuickGraphEdge> Graph;
 

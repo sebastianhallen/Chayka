@@ -1,15 +1,10 @@
 ﻿namespace Chayka.Tests
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
     using NUnit.Framework;
+    using System.Linq;
 
     [TestFixture]
-    public class GraphBuilderTests
+    public class ShortestPathGraphTests
     {
         private DefaultGraphBuilder<State> graphBuilder;
         
@@ -23,14 +18,12 @@
                 .AddVertex(new DefaultVertex<State>(State.C))
                 .AddEdge(new DefaultEdge<State>(State.A, State.B))
                 .AddEdge(new DefaultEdge<State>(State.B, State.C));
-
-
         }
 
         [Test]
         public void Should_be_able_to_find_shortest_path_in_graph()
         {
-            var graph = this.graphBuilder.BuildGraph();
+            var graph = this.graphBuilder.CreatePathFinder(PathType.Shortest);
 
             var pathAtoC = graph.PathBetween(State.A, State.C).ToArray();
 
@@ -43,7 +36,7 @@
         [Test]
         public void Should_return_empty_path_when_unable_to_find_a_path()
         {
-            var graph = this.graphBuilder.BuildGraph();
+            var graph = this.graphBuilder.CreatePathFinder(PathType.Shortest);
 
             var pathCtoB = graph.PathBetween(State.C, State.B);
 

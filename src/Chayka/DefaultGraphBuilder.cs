@@ -26,7 +26,7 @@
             return this;
         }
 
-        public IGraph<T> BuildGraph()
+        public IPathFinder<T> CreatePathFinder(PathType shortest)
         {
             return new ShortestPathGraph<T>(this.vertices, this.edges);
         }
