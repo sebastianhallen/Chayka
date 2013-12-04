@@ -28,7 +28,7 @@
 
         public IGraph<T> BuildGraph()
         {
-            return new QuickGraphGraph<T>(this.vertices, this.edges);
+            return new ShortestPathGraph<T>(this.vertices, this.edges);
         }
     }
 }
