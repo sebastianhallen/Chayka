@@ -2,6 +2,19 @@
 {
     using System.Collections.Generic;
 
+    public static class DefaultGraphBuilderExtensions
+    {
+        public static IGraphBuilder<T> AddVertex<T>(this IGraphBuilder<T> builder, T vertex)
+        {
+            return builder.AddVertex(new DefaultVertex<T>(vertex));
+        }
+
+        public static IGraphBuilder<T> AddEdge<T>(this IGraphBuilder<T> builder, T source, T target)
+        {
+            return builder.AddEdge(new DefaultEdge<T>(source, target));
+        }
+    }
+
     public class DefaultGraphBuilder<T>
         : IGraphBuilder<T>
     {
@@ -26,9 +39,11 @@
             return this;
         }
 
-        public IPathFinder<T> CreatePathFinder(PathType shortest)
+        public IPathFinder<T> CreatePathFinder(PathType pathType)
         {
-            return new ShortestPathGraph<T>(this.vertices, this.edges);
+            if (pathType.Equals(PathType.Shortest)) return new ShortestPathGraph<T>(this.vertices, this.edges);
+            if (pathType.Equals(PathType.Longest)) return new LongestPathGraph<T>(this.vertices, this.edges);
+            return null;
         }
     }
 }

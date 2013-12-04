@@ -2,6 +2,7 @@
 {
     public enum PathType
     {
-        Shortest
+        Shortest,
+        Longest
     }
 }
