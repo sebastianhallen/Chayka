@@ -52,6 +52,17 @@ namespace Chayka.Tests
             Assert.That(p, Is.EqualTo("7 -> 6 -> 4 -> 0 -> 1 -> 2"));
         }
 
+        [Test]
+        public void Should_use_shortest_path_when_not_able_to_find_a_long_path_without_node_revisit()
+        {
+            var pathFinder = this.graphBuilder.CreatePathFinder(PathType.Longest);
+
+            var path = pathFinder.PathBetween(8, 7);
+            var p = PathToString(path);
+
+            Assert.That(p, Is.EqualTo("8 -> 6 -> 7"));
+        }
+
         private static string PathToString(IEnumerable<IEdge<int>> path)
         {
             var pathArray = path.ToArray();

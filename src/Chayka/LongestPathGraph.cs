@@ -18,10 +18,7 @@ namespace Chayka
         public LongestPathGraph(IEnumerable<IVertex<T>> vertices, IEnumerable<IEdge<T>> edges) 
             : base(vertices, edges)
         {
-            var algorithm = new FloydWarshallAllShortestPathAlgorithm<T, QuickGraphEdge>(this.Graph, edge => 1);
-            algorithm.Compute();
-
-            this.paths = this.GetPaths(algorithm);
+            this.paths = this.GetPaths();
         }
 
         public override bool TryGetPathBetween(T source, T target, out IEnumerable<IEdge<T>> path)
@@ -54,22 +51,16 @@ namespace Chayka
                 return true;
             }
 
-            var shortestPath = this.paths.FirstOrDefault(p =>
-                                                         p.First().Source.Equals(source) &&
-                                                         p.Last().Source.Equals(target));
-            if (shortestPath == null)
-            {
-                path = Enumerable.Empty<IEdge<T>>();
-                return false;
-            }
-
-            path = shortestPath;
-            return true;
+            path = Enumerable.Empty<IEdge<T>>();
+            return false;
 
         }
 
-        private IEnumerable<IEdge<T>>[] GetPaths(FloydWarshallAllShortestPathAlgorithm<T, QuickGraphEdge> algorithm)
+        private IEnumerable<IEdge<T>>[] GetPaths()
         {
+            var algorithm = new FloydWarshallAllShortestPathAlgorithm<T, QuickGraphEdge>(this.Graph, edge => 1);
+            algorithm.Compute();
+
             var foundPaths = new List<IEnumerable<IEdge<T>>>();
             foreach (var source in this.Graph.Vertices)
                 foreach (var target in this.Graph.Vertices)
