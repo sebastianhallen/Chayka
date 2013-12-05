@@ -6,39 +6,25 @@
     [TestFixture]
     public class ShortestPathGraphTests
     {
-        private DefaultGraphBuilder<State> graphBuilder;
-        
-        [SetUp]
-        public void Before()
-        {
-            this.graphBuilder = new DefaultGraphBuilder<State>();
-            this.graphBuilder
-                .AddVertex(new DefaultVertex<State>(State.A))
-                .AddVertex(new DefaultVertex<State>(State.B))
-                .AddVertex(new DefaultVertex<State>(State.C))
-                .AddEdge(new DefaultEdge<State>(State.A, State.B))
-                .AddEdge(new DefaultEdge<State>(State.B, State.C));
-        }
-
         [Test]
         public void Should_be_able_to_find_shortest_path_in_graph()
         {
-            var graph = this.graphBuilder.CreatePathFinder(PathType.Shortest);
+            var graph = ExampleGraphs.BiDirectionalPyramid.CreatePathFinder(PathType.Shortest);
 
-            var pathAtoC = graph.PathBetween(State.A, State.C).ToArray();
+            var pathAtoC = graph.PathBetween(5, 6).ToArray();
 
-            Assert.That(pathAtoC.First().Source, Is.EqualTo(State.A));
-            Assert.That(pathAtoC.First().Target, Is.EqualTo(State.B));
-            Assert.That(pathAtoC.Last().Source, Is.EqualTo(State.B));
-            Assert.That(pathAtoC.Last().Target, Is.EqualTo(State.C));
+            Assert.That(pathAtoC.First().Source, Is.EqualTo(5));
+            Assert.That(pathAtoC.First().Target, Is.EqualTo(4));
+            Assert.That(pathAtoC.Last().Source, Is.EqualTo(4));
+            Assert.That(pathAtoC.Last().Target, Is.EqualTo(6));
         }
 
         [Test]
         public void Should_return_empty_path_when_unable_to_find_a_path()
         {
-            var graph = this.graphBuilder.CreatePathFinder(PathType.Shortest);
+            var graph = ExampleGraphs.UniDirectedLinear.CreatePathFinder(PathType.Shortest);
 
-            var pathCtoB = graph.PathBetween(State.C, State.B);
+            var pathCtoB = graph.PathBetween('c', 'b');
 
             Assert.That(pathCtoB.Any(), Is.False);
         }
