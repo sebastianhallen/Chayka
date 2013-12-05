@@ -1,6 +1,8 @@
 ﻿namespace Chayka.Tests
 {
-    public class ExampleGraphs
+    using System.Linq;
+
+    public static class ExampleGraphs
     {
         /*
                 0
@@ -30,6 +32,59 @@
                     .AddEdge(5, 2)
                     .AddEdge(6, 7).AddEdge(6, 8).AddEdge(7, 6).AddEdge(8, 6)
                     .AddEdge(7, 3);
+            }
+        }
+
+        /*
+            a---b---c---d
+            |   |   |   |
+            e---f---g---h
+            |   |   |   |
+            i---j---k---l
+            |   |   |   |
+            m---n---o---p
+          
+        */
+        public static IGraphBuilder<char> BiDirectional4X4
+        {
+            get
+            {
+                return new DefaultGraphBuilder<char>()
+                    .Vertices("abcdefghijklmnop".Select(c => c).ToArray())
+                    .Bi('a', 'b').Bi('b', 'c').Bi('c', 'd')
+                    .Bi('e', 'f').Bi('f', 'g').Bi('g', 'h')
+                    .Bi('i', 'j').Bi('j', 'k').Bi('k', 'l')
+                    .Bi('m', 'n').Bi('n', 'o').Bi('o', 'p')
+
+                    .Bi('a', 'e').Bi('e', 'i').Bi('i', 'm')
+                    .Bi('b', 'f').Bi('f', 'j').Bi('j', 'n')
+                    .Bi('c', 'g').Bi('g', 'k').Bi('k', 'o')
+                    .Bi('d', 'h').Bi('h', 'l').Bi('l', 'p');
+            }
+        }
+
+        /*
+            a---b---c---d
+            | X | X | X |
+            e---f---g---h
+            | X | X | X |
+            i---j---k---l
+            | X | X | X |
+            m---n---o---p
+          
+        */
+        public static IGraphBuilder<char> BiDirectional4X4Mesh
+        {
+            get
+            {
+                return BiDirectional4X4
+                    .Bi('a', 'f').Bi('b', 'g').Bi('c', 'h')
+                    .Bi('e', 'j').Bi('f', 'k').Bi('g', 'l')
+                    .Bi('i', 'n').Bi('j', 'o').Bi('k', 'p')
+
+                    .Bi('d', 'e').Bi('c', 'f').Bi('d', 'g')
+                    .Bi('f', 'i').Bi('g', 'h').Bi('h', 'k')
+                    .Bi('j', 'm').Bi('k', 'n').Bi('l', 'o');
             }
         }
 
@@ -64,6 +119,26 @@
                                 .AddEdge('a', 'b')
                                 .AddEdge('b', 'c');
             }
+        }
+
+        private static IGraphBuilder<T> Vertices<T>(this IGraphBuilder<T> builder, params T[] vertices)
+        {
+            foreach (var vertex in vertices)
+            {
+                builder.AddVertex(vertex);
+            }
+
+            return builder;
+        }
+
+        private static IGraphBuilder<T> Uni<T>(this IGraphBuilder<T> builder, T source, T target)
+        {
+            return builder.AddEdge(source, target);
+        }
+
+        private static IGraphBuilder<T> Bi<T>(this IGraphBuilder<T> builder, T a, T b)
+        {
+            return builder.Uni(a, b).Uni(b, a);
         }
     }
 }

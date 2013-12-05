@@ -45,6 +45,7 @@
     <Compile Include="ExampleGraphs.cs" />
     <Compile Include="LongestPathFinderTests.cs" />
     <Compile Include="PathTest.cs" />
+    <Compile Include="RandomPathTests.cs" />
     <Compile Include="ShortestPathGraphTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

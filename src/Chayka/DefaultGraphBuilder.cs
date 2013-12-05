@@ -43,6 +43,7 @@
         {
             if (pathType.Equals(PathType.Shortest)) return new ShortestPathGraph<T>(this.vertices, this.edges);
             if (pathType.Equals(PathType.Longest)) return new LongestPathGraph<T>(this.vertices, this.edges);
+            if (pathType.Equals(PathType.Random)) return new RandomPathGraph<T>(this.vertices, this.edges);
             return null;
         }
     }

@@ -7,7 +7,7 @@
     public abstract class QuickGraphGraph<T>
         : IPathFinder<T>
     {
-        protected readonly IVertexAndEdgeListGraph<T, QuickGraphEdge> Graph;
+        protected readonly IBidirectionalGraph<T, QuickGraphEdge> Graph;
 
         protected QuickGraphGraph(IEnumerable<IVertex<T>> vertices, IEnumerable<IEdge<T>> edges)
         {

@@ -3,6 +3,7 @@
     public enum PathType
     {
         Shortest,
-        Longest
+        Longest,
+        Random
     }
 }
