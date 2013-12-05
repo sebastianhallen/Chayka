@@ -1,11 +1,10 @@
 ﻿namespace Chayka.Tests
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using NUnit.Framework;
 
     [TestFixture]
     public class LongestPathFinderTests
+        : PathTest
     {
         [Test]
         public void Should_find_longest_path()
@@ -13,9 +12,8 @@
             var pathFinder = ExampleGraphs.BiDirectionalPyramid.CreatePathFinder(PathType.Longest);
 
             var path = pathFinder.PathBetween(7, 2);
-            var p = PathToString(path);
-
-            Assert.That(p, Is.EqualTo("7 -> 6 -> 4 -> 0 -> 1 -> 2"));
+            
+            Assert.That(PathToString(path), Is.EqualTo("7 -> 6 -> 4 -> 0 -> 1 -> 2"));
         }
 
         [Test]
@@ -24,9 +22,8 @@
             var pathFinder = ExampleGraphs.BiDirectionalPyramid.CreatePathFinder(PathType.Longest);
 
             var path = pathFinder.PathBetween(8, 7);
-            var p = PathToString(path);
-
-            Assert.That(p, Is.EqualTo("8 -> 6 -> 7"));
+            
+            Assert.That(PathToString(path), Is.EqualTo("8 -> 6 -> 7"));
         }
 
         [Test]
@@ -35,9 +32,8 @@
             var pathFinder = ExampleGraphs.BiDirectionalPyramid.CreatePathFinder(PathType.Longest);
 
             var path = pathFinder.PathBetween(8, 6);
-            var p = PathToString(path);
-
-            Assert.That(p, Is.EqualTo("8 -> 6"));
+            
+            Assert.That(PathToString(path), Is.EqualTo("8 -> 6"));
         }
 
         [Test] //or should we try to find the longest round trip path?
@@ -46,20 +42,8 @@
             var pathFinder = ExampleGraphs.UniDirectedSquare.CreatePathFinder(PathType.Longest);
 
             var path = pathFinder.PathBetween('a', 'a');
-            var p = PathToString(path);
-
-            Assert.That(p, Is.EqualTo("()"));
-        }
-
-        private static string PathToString<T>(IEnumerable<IEdge<T>> path)
-        {
-            var pathArray = path.ToArray();
-
-            if (!pathArray.Any()) return "()";
-
-            return
-                pathArray.First().Source + " -> " +
-                string.Join(" -> ", pathArray.Select(edge => edge.Target));
+            
+            Assert.That(PathToString(path), Is.EqualTo("()"));
         }
     }
 }
