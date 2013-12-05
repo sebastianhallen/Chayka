@@ -57,10 +57,10 @@ namespace Chayka.Tests
         {
             var pathFinder = this.graphBuilder.CreatePathFinder(PathType.Longest);
 
-            var path = pathFinder.PathBetween(8, 7);
+            var path = pathFinder.PathBetween(8, 6);
             var p = PathToString(path);
 
-            Assert.That(p, Is.EqualTo("8 -> 6 -> 7"));
+            Assert.That(p, Is.EqualTo("8 -> 6"));
         }
 
         private static string PathToString(IEnumerable<IEdge<int>> path)

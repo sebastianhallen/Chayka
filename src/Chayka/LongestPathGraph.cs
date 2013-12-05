@@ -51,6 +51,18 @@ namespace Chayka
                 return true;
             }
 
+            var shortestPath = this.paths.FirstOrDefault(p =>
+                {
+                    var shortest = p.ToArray();
+                    return shortest.First().Source.Equals(source) &&
+                           shortest.Last().Target.Equals(target);
+                });
+            if (shortestPath != null)
+            {
+                path = shortestPath;
+                return true;
+            }
+
             path = Enumerable.Empty<IEdge<T>>();
             return false;
 
