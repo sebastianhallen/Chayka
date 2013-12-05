@@ -53,6 +53,17 @@ namespace Chayka.Tests
         }
 
         [Test]
+        public void Should_not_visit_the_same_node_twice()
+        {
+            var pathFinder = this.graphBuilder.CreatePathFinder(PathType.Longest);
+
+            var path = pathFinder.PathBetween(8, 7);
+            var p = PathToString(path);
+
+            Assert.That(p, Is.EqualTo("8 -> 6 -> 7"));
+        }
+
+        [Test]
         public void Should_use_shortest_path_when_not_able_to_find_a_long_path_without_node_revisit()
         {
             var pathFinder = this.graphBuilder.CreatePathFinder(PathType.Longest);
@@ -63,7 +74,26 @@ namespace Chayka.Tests
             Assert.That(p, Is.EqualTo("8 -> 6"));
         }
 
-        private static string PathToString(IEnumerable<IEdge<int>> path)
+        [Test] //or should we try to find the longest round trip path?
+        public void Should_give_empty_path_when_finding_longest_path_to_self()
+        {
+            /*
+              a--b
+              |  |
+              c--d
+            */
+            var pathFinder = new DefaultGraphBuilder<char>()
+                                    .AddVertex('a').AddVertex('b').AddVertex('c').AddVertex('d')
+                                    .AddEdge('a', 'b').AddEdge('b', 'd').AddEdge('d', 'c').AddEdge('c', 'a')
+                                    .CreatePathFinder(PathType.Longest);
+
+            var path = pathFinder.PathBetween('a', 'a');
+            var p = PathToString(path);
+
+            Assert.That(p, Is.EqualTo("()"));
+        }
+
+        private static string PathToString<T>(IEnumerable<IEdge<T>> path)
         {
             var pathArray = path.ToArray();
 
