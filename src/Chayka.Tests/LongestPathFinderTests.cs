@@ -1,11 +1,17 @@
 ﻿namespace Chayka.Tests
 {
+    using System.Collections.Generic;
     using NUnit.Framework;
 
     [TestFixture]
     public class LongestPathFinderTests
         : PathTest
     {
+        protected override PathType PathType
+        {
+            get { return PathType.Longest; }
+        }
+
         [Test]
         public void Should_find_longest_path()
         {
@@ -41,8 +47,9 @@
         {
             var pathFinder = ExampleGraphs.UniDirectedSquare.CreatePathFinder(PathType.Longest);
 
-            var path = pathFinder.PathBetween('a', 'a');
-            
+            IEnumerable<IEdge<char>> path;
+            pathFinder.TryGetPathBetween('a', 'a', out path);
+
             Assert.That(PathToString(path), Is.EqualTo("()"));
         }
     }

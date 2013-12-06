@@ -2,8 +2,7 @@
 {
     using System.Linq;
 
-    public static class ExampleGraphs<TRandomWalkSessionFactory>
-        where TRandomWalkSessionFactory : IRandomWalkSessionFactory, new()
+    public class ExampleGraphs
     {
         /*
                 0
@@ -13,13 +12,38 @@
             2---5   6
            /       / \
           3-------7   8
-         
         */
+
+        private static bool _sessionFactoryTainted;
+        private static IRandomWalkSessionFactory _randomWalkSessionFactoryField; 
+        private static IRandomWalkSessionFactory RandomWalkSessionFactory
+        {
+            get
+            {
+                var factory = _randomWalkSessionFactoryField ?? (_randomWalkSessionFactoryField = new DefaultRandomWalkSessionFactory(new DefaultRandomizer(1337), 1000));
+
+                if (_sessionFactoryTainted)
+                {
+                    _randomWalkSessionFactoryField = null;
+                    _sessionFactoryTainted = false;
+                }
+                return factory;
+            }
+        }
+
+        public static ExampleGraphs OverrideNext(IRandomWalkSessionFactory sessionFactory)
+        {
+            _randomWalkSessionFactoryField = sessionFactory;
+            _sessionFactoryTainted = true;
+
+            return new ExampleGraphs();
+        }
+
         public static IGraphBuilder<int> BiDirectionalPyramid
         {
             get
             {
-                return new DefaultGraphBuilder<int>(new TRandomWalkSessionFactory())
+                return new DefaultGraphBuilder<int>(RandomWalkSessionFactory)
                     .AddVertex(0).AddVertex(1).AddVertex(2)
                     .AddVertex(3).AddVertex(4).AddVertex(5)
                     .AddVertex(6).AddVertex(7).AddVertex(8)
@@ -50,7 +74,7 @@
         {
             get
             {
-                return new DefaultGraphBuilder<char>(new TRandomWalkSessionFactory())
+                return new DefaultGraphBuilder<char>(RandomWalkSessionFactory)
                     .Vertices("abcdefghijklmnop".Select(c => c).ToArray())
                     .Bi('a', 'b').Bi('b', 'c').Bi('c', 'd')
                     .Bi('e', 'f').Bi('f', 'g').Bi('g', 'h')
@@ -99,7 +123,7 @@
         {
             get
             {
-                return new DefaultGraphBuilder<char>(new TRandomWalkSessionFactory())
+                return new DefaultGraphBuilder<char>(RandomWalkSessionFactory)
                     .AddVertex('a').AddVertex('b').AddVertex('c').AddVertex('d')
                     .AddEdge('a', 'b').AddEdge('b', 'd').AddEdge('d', 'c').AddEdge('c', 'a');
 
@@ -113,41 +137,13 @@
         {
             get
             {
-                return new DefaultGraphBuilder<char>(new TRandomWalkSessionFactory())
+                return new DefaultGraphBuilder<char>(RandomWalkSessionFactory)
                                 .AddVertex('a')
                                 .AddVertex('b')
                                 .AddVertex('c')
                                 .AddEdge('a', 'b')
                                 .AddEdge('b', 'c');
             }
-        }
-    }
-
-    public static class ExampleGraphs
-    {
-        public static IGraphBuilder<int> BiDirectionalPyramid
-        {
-            get { return ExampleGraphs<DefaultRandomWalkSessionFactory>.BiDirectionalPyramid; }
-        }
-        
-        public static IGraphBuilder<char> BiDirectional4X4
-        {
-            get { return ExampleGraphs<DefaultRandomWalkSessionFactory>.BiDirectional4X4; }
-        }
-
-        public static IGraphBuilder<char> BiDirectional4X4Mesh
-        {
-            get { return ExampleGraphs<DefaultRandomWalkSessionFactory>.BiDirectional4X4Mesh; }
-        }
-
-        public static IGraphBuilder<char> UniDirectedSquare
-        {
-            get { return ExampleGraphs<DefaultRandomWalkSessionFactory>.UniDirectedSquare; }
-        }
-
-        public static IGraphBuilder<char> UniDirectedLinear
-        {
-            get { return ExampleGraphs<DefaultRandomWalkSessionFactory>.UniDirectedLinear; }
         }
     }
 

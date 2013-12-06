@@ -23,6 +23,12 @@ namespace Chayka
 
         private bool TryCreatePath(IRandomWalkSession<T> session, T source, T target, out IEnumerable<IEdge<T>> path)
         {
+            if (Equals(source, target))
+            {
+                path = Enumerable.Empty<IEdge<T>>();
+                return true;
+            }
+
             var candidate = new List<QuickGraph.IEdge<T>>();
             var pathFound = false;
 

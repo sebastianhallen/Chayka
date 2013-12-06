@@ -23,6 +23,12 @@ namespace Chayka
 
         public override bool TryGetPathBetween(T source, T target, out IEnumerable<IEdge<T>> path)
         {
+            if (Equals(source, target))
+            {
+                path = Enumerable.Empty<IEdge<T>>();
+                return true;
+            }
+
             var pivotCandidates = from p in this.paths
                                   where p.Last().Target.Equals(target)
                                   where !p.Any(edge => edge.Source.Equals(source))

@@ -18,6 +18,12 @@
 
         public override bool TryGetPathBetween(T source, T target, out IEnumerable<IEdge<T>> path)
         {
+            if (Equals(source, target))
+            {
+                path = Enumerable.Empty<IEdge<T>>();
+                return true;
+            }
+
             IEnumerable<QuickGraph.IEdge<T>> qgPath;
             var hasPath = algorithm.TryGetPath(source, target, out qgPath);
 

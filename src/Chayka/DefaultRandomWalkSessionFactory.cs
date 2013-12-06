@@ -1,7 +1,6 @@
 ﻿namespace Chayka
 {
     using System.Collections.Generic;
-    using QuickGraph;
 
     public class DefaultRandomWalkSessionFactory
         : IRandomWalkSessionFactory

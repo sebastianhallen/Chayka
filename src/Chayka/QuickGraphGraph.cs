@@ -1,8 +1,18 @@
 ﻿namespace Chayka
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using QuickGraph;
+
+    public class NoPathFoundException
+        : Exception
+    {
+        public NoPathFoundException(string message)
+            : base(message)
+        {
+        }
+    }
 
     public abstract class QuickGraphGraph<T>
         : IPathFinder<T>
@@ -24,7 +34,10 @@
         public IEnumerable<IEdge<T>> PathBetween(T source, T target)
         {
             IEnumerable<IEdge<T>> path;
-            this.TryGetPathBetween(source, target, out path);
+            if (!this.TryGetPathBetween(source, target, out path))
+            {
+                throw new NoPathFoundException(string.Format("Unable to find a path between {0} and {1}", source, target));
+            }
 
             return path;
         }

@@ -1,5 +1,6 @@
 ﻿namespace Chayka.Tests
 {
+    using System.Collections.Generic;
     using NUnit.Framework;
     using System.Linq;
 
@@ -7,6 +8,11 @@
     public class ShortestPathGraphTests
         : PathTest
     {
+        protected override PathType PathType
+        {
+            get { return PathType.Shortest; }
+        }
+
         [Test]
         public void Should_be_able_to_find_shortest_path_in_graph()
         {
@@ -22,9 +28,10 @@
         {
             var graph = ExampleGraphs.UniDirectedLinear.CreatePathFinder(PathType.Shortest);
 
-            var pathCtoB = graph.PathBetween('c', 'b');
+            IEnumerable<IEdge<char>> path;
+            graph.TryGetPathBetween('c', 'b', out path);
 
-            Assert.That(pathCtoB.Any(), Is.False);
+            Assert.That(path.Any(), Is.False);
         }
     }
 }
