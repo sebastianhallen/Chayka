@@ -1,6 +1,7 @@
 ﻿namespace Chayka.Tests
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using NUnit.Framework;
 
@@ -39,12 +40,15 @@
         }
 
         [Test]
-        public void PathBetween_should_throw_exception_when_unable_to_find_a_path_with_random_walk()
+        public void Should_return_false_when_max_path_limit_has_been_reached_without_finding_a_path()
         {
             ExampleGraphs.OverrideNext(new DefaultRandomWalkSessionFactory(new DefaultRandomizer(1337), 7));
             var pathFinder = ExampleGraphs.BiDirectional4X4Mesh.CreatePathFinder(PathType.Random);
 
-            Assert.Throws<NoPathFoundException>(() => pathFinder.PathBetween('m', 'd'));
+            IEnumerable<IEdge<char>> _;
+            var pathFound = pathFinder.TryGetPathBetween('m', 'd', out _);
+
+            Assert.That(pathFound, Is.False);
         }
     }
 }

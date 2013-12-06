@@ -32,12 +32,31 @@
         [Test]
         public void Should_return_empty_path_getting_path_to_sef()
         {
-            var graph = ExampleGraphs.UniDirectedLinear.CreatePathFinder(PathType.Shortest);
+            var graph = ExampleGraphs.UniDirectedLinear.CreatePathFinder(this.PathType);
 
             IEnumerable<IEdge<char>> path;
             graph.TryGetPathBetween('a', 'a', out path);
 
             Assert.That(path.Any(), Is.False);
+        }
+
+        [Test]
+        public void Should_return_false_when_unable_to_find_a_path()
+        {
+            var pathFinder = ExampleGraphs.BiDirectional4X4Mesh.AddVertex('ö').CreatePathFinder(this.PathType);
+
+            IEnumerable<IEdge<char>> _;
+            var pathFound = pathFinder.TryGetPathBetween('m', 'ö', out _);
+
+            Assert.That(pathFound, Is.False);
+        }
+
+        [Test]
+        public void PathBetween_should_throw_exception_when_unable_to_find_a_path()
+        {
+            var pathFinder = ExampleGraphs.BiDirectional4X4Mesh.AddVertex('ö').CreatePathFinder(this.PathType);
+
+            Assert.Throws<NoPathFoundException>(() => pathFinder.PathBetween('m', 'ö'));
         }
     }
 }
