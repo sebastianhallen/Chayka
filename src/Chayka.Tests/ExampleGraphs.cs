@@ -2,12 +2,8 @@
 {
     using System.Linq;
 
-    public static class ExampleGraphs<TConfig>
-    {
-
-    }
-
-    public static class ExampleGraphs
+    public static class ExampleGraphs<TRandomWalkSessionFactory>
+        where TRandomWalkSessionFactory : IRandomWalkSessionFactory, new()
     {
         /*
                 0
@@ -23,7 +19,7 @@
         {
             get
             {
-                return new DefaultGraphBuilder<int>()
+                return new DefaultGraphBuilder<int>(new TRandomWalkSessionFactory())
                     .AddVertex(0).AddVertex(1).AddVertex(2)
                     .AddVertex(3).AddVertex(4).AddVertex(5)
                     .AddVertex(6).AddVertex(7).AddVertex(8)
@@ -54,7 +50,7 @@
         {
             get
             {
-                return new DefaultGraphBuilder<char>()
+                return new DefaultGraphBuilder<char>(new TRandomWalkSessionFactory())
                     .Vertices("abcdefghijklmnop".Select(c => c).ToArray())
                     .Bi('a', 'b').Bi('b', 'c').Bi('c', 'd')
                     .Bi('e', 'f').Bi('f', 'g').Bi('g', 'h')
@@ -103,7 +99,7 @@
         {
             get
             {
-                return new DefaultGraphBuilder<char>()
+                return new DefaultGraphBuilder<char>(new TRandomWalkSessionFactory())
                     .AddVertex('a').AddVertex('b').AddVertex('c').AddVertex('d')
                     .AddEdge('a', 'b').AddEdge('b', 'd').AddEdge('d', 'c').AddEdge('c', 'a');
 
@@ -117,7 +113,7 @@
         {
             get
             {
-                return new DefaultGraphBuilder<char>()
+                return new DefaultGraphBuilder<char>(new TRandomWalkSessionFactory())
                                 .AddVertex('a')
                                 .AddVertex('b')
                                 .AddVertex('c')
@@ -125,8 +121,39 @@
                                 .AddEdge('b', 'c');
             }
         }
+    }
 
-        private static IGraphBuilder<T> Vertices<T>(this IGraphBuilder<T> builder, params T[] vertices)
+    public static class ExampleGraphs
+    {
+        public static IGraphBuilder<int> BiDirectionalPyramid
+        {
+            get { return ExampleGraphs<DefaultRandomWalkSessionFactory>.BiDirectionalPyramid; }
+        }
+        
+        public static IGraphBuilder<char> BiDirectional4X4
+        {
+            get { return ExampleGraphs<DefaultRandomWalkSessionFactory>.BiDirectional4X4; }
+        }
+
+        public static IGraphBuilder<char> BiDirectional4X4Mesh
+        {
+            get { return ExampleGraphs<DefaultRandomWalkSessionFactory>.BiDirectional4X4Mesh; }
+        }
+
+        public static IGraphBuilder<char> UniDirectedSquare
+        {
+            get { return ExampleGraphs<DefaultRandomWalkSessionFactory>.UniDirectedSquare; }
+        }
+
+        public static IGraphBuilder<char> UniDirectedLinear
+        {
+            get { return ExampleGraphs<DefaultRandomWalkSessionFactory>.UniDirectedLinear; }
+        }
+    }
+
+    internal static class ExampleGraphBuilderExtensions
+    {
+        public static IGraphBuilder<T> Vertices<T>(this IGraphBuilder<T> builder, params T[] vertices)
         {
             foreach (var vertex in vertices)
             {
@@ -136,12 +163,12 @@
             return builder;
         }
 
-        private static IGraphBuilder<T> Uni<T>(this IGraphBuilder<T> builder, T source, T target)
+        public static IGraphBuilder<T> Uni<T>(this IGraphBuilder<T> builder, T source, T target)
         {
             return builder.AddEdge(source, target);
         }
 
-        private static IGraphBuilder<T> Bi<T>(this IGraphBuilder<T> builder, T a, T b)
+        public static IGraphBuilder<T> Bi<T>(this IGraphBuilder<T> builder, T a, T b)
         {
             return builder.Uni(a, b).Uni(b, a);
         }
