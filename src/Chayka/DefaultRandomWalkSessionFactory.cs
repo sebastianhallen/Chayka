@@ -1,13 +1,28 @@
 ﻿namespace Chayka
 {
+    using System.Collections.Generic;
     using QuickGraph;
 
     public class DefaultRandomWalkSessionFactory
         : IRandomWalkSessionFactory
     {
-        public IRandomWalkSession<T> Start<T>(IBidirectionalGraph<T, QuickGraph.IEdge<T>> graph)
+        private readonly IRandomizer randomizer;
+        private readonly int maxPathLength;
+
+        public DefaultRandomWalkSessionFactory()
+            : this(new DefaultRandomizer(), 1000)
         {
-            return new DefaultRandomWalkSession<T>(graph, 1000);
+        }
+
+        public DefaultRandomWalkSessionFactory(IRandomizer randomizer, int maxPathLength)
+        {
+            this.randomizer = randomizer;
+            this.maxPathLength = maxPathLength;
+        }
+
+        public IRandomWalkSession<T> Start<T>(IEnumerable<QuickGraph.IEdge<T>> edges)
+        {
+            return new DefaultRandomWalkSession<T>(edges, this.randomizer, this.maxPathLength);
         }
     }
 }

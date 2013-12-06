@@ -1,9 +1,9 @@
 ﻿namespace Chayka
 {
-    using QuickGraph;
+    using System.Collections.Generic;
 
     public interface IRandomWalkSessionFactory
     {
-        IRandomWalkSession<T> Start<T>(IBidirectionalGraph<T, QuickGraph.IEdge<T>> graph);
+        IRandomWalkSession<T> Start<T>(IEnumerable<QuickGraph.IEdge<T>> edges);
     }
 }

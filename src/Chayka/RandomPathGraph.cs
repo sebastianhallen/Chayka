@@ -16,7 +16,7 @@ namespace Chayka
 
         public override bool TryGetPathBetween(T source, T target, out IEnumerable<IEdge<T>> path)
         {
-            var session = this.sessionFactory.Start(this.Graph);
+            var session = this.sessionFactory.Start(this.Graph.Edges);
             return this.TryCreatePath(session, source, target, out path);
             
         }
