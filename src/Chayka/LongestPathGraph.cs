@@ -70,17 +70,17 @@ namespace Chayka
 
         private IEnumerable<IEdge<T>>[] GetPaths()
         {
-            var algorithm = new FloydWarshallAllShortestPathAlgorithm<T, QuickGraphEdge>(this.Graph, edge => 1);
+            var algorithm = new FloydWarshallAllShortestPathAlgorithm<T, QuickGraph.IEdge<T>>(this.Graph, edge => 1);
             algorithm.Compute();
 
             var foundPaths = new List<IEnumerable<IEdge<T>>>();
             foreach (var source in this.Graph.Vertices)
                 foreach (var target in this.Graph.Vertices)
                 {
-                    IEnumerable<QuickGraphEdge> path;
+                    IEnumerable<QuickGraph.IEdge<T>> path;
                     if (algorithm.TryGetPath(source, target, out path))
                     {
-                        foundPaths.Add(path.Select(edge => edge.WrappedEdge).ToArray());
+                        foundPaths.Add(path.Cast<QuickGraphEdge>().Select(edge => edge.WrappedEdge).ToArray());
                     }
                 }
 

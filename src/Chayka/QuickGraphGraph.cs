@@ -7,16 +7,16 @@
     public abstract class QuickGraphGraph<T>
         : IPathFinder<T>
     {
-        protected readonly IBidirectionalGraph<T, QuickGraphEdge> Graph;
+        protected readonly IBidirectionalGraph<T, QuickGraph.IEdge<T>> Graph;
 
         protected QuickGraphGraph(IEnumerable<IVertex<T>> vertices, IEnumerable<IEdge<T>> edges)
         {
-            var bidirectionalGraph = new BidirectionalGraph<T, QuickGraphEdge>();
+            var bidirectionalGraph = new BidirectionalGraph<T, QuickGraph.IEdge<T>>();
             
             bidirectionalGraph.AddVertexRange(vertices.Select(vertex => vertex.Content));
             bidirectionalGraph.AddEdgeRange(edges.Select(edge => new QuickGraphEdge(edge)));
 
-            this.Graph = new ArrayBidirectionalGraph<T, QuickGraphEdge>(bidirectionalGraph);
+            this.Graph = new ArrayBidirectionalGraph<T, QuickGraph.IEdge<T>>(bidirectionalGraph);
         }
 
         public abstract bool TryGetPathBetween(T source, T target, out IEnumerable<IEdge<T>> path);

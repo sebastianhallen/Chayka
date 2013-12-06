@@ -2,6 +2,11 @@
 {
     using System.Linq;
 
+    public static class ExampleGraphs<TConfig>
+    {
+
+    }
+
     public static class ExampleGraphs
     {
         /*

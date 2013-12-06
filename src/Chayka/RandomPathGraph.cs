@@ -1,41 +1,40 @@
 namespace Chayka
 {
-    using QuickGraph.Algorithms;
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     public class RandomPathGraph<T>
         : QuickGraphGraph<T>
     {
-        private Random random;
+        private readonly IRandomWalkSessionFactory sessionFactory;
 
-        public RandomPathGraph(IEnumerable<IVertex<T>> vertices, IEnumerable<IEdge<T>> edges) 
+        public RandomPathGraph(IRandomWalkSessionFactory sessionFactory, IEnumerable<IVertex<T>> vertices, IEnumerable<IEdge<T>> edges) 
             : base(vertices, edges)
         {
-            this.random = new Random();
+            this.sessionFactory = sessionFactory;
         }
 
         public override bool TryGetPathBetween(T source, T target, out IEnumerable<IEdge<T>> path)
         {
-            return this.TryCreatePath(source, target, out path);
+            var session = this.sessionFactory.Start(this.Graph);
+            return this.TryCreatePath(session, source, target, out path);
             
         }
 
-        private bool TryCreatePath(T source, T target, out IEnumerable<IEdge<T>> path)
+        private bool TryCreatePath(IRandomWalkSession<T> session, T source, T target, out IEnumerable<IEdge<T>> path)
         {
-            var candidate = new List<QuickGraphEdge>();
+            var candidate = new List<QuickGraph.IEdge<T>>();
             var pathFound = false;
-            var maxPathLenght = 1000;
 
             var current = source;
             while (!Equals(current, target))
             {
-                if (--maxPathLenght < 0) break;
-                var edge = this.GetEdgesFor(current).FirstOrDefault();
-                
-                if (edge == null) break;
-                
+                QuickGraph.IEdge<T> edge;
+                if (!session.TryGetNextEdge(current, out edge))
+                {
+                    break;
+                }
+
                 current = edge.Target;
                 candidate.Add(edge);
 
@@ -45,21 +44,8 @@ namespace Chayka
                     break;
                 }
             }
-            path = candidate.Select(edge => edge.WrappedEdge);
+            path = candidate.Cast<QuickGraphEdge>().Select(edge => edge.WrappedEdge);
             return pathFound;
-        }
-
-        private IOrderedEnumerable<QuickGraphEdge> GetEdgesFor(T vertex)
-        {
-            return from edge in this.Graph.Edges
-                   where edge.Source.Equals(vertex)
-                   orderby this.Random(12345)
-                   select edge;
-        }
-
-        private int Random(int max)
-        {
-            return this.random.Next(max);
         }
     }
 }

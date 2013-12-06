@@ -9,7 +9,7 @@
         : PathTest
     {
         [Test]
-        public void Should_be_able_to_get_a_path_between_nodes()
+        public void Should_try_shortest_path_between_nodes_when_random_walk_fails_to_reach_target()
         {
             var pathFinder = ExampleGraphs.BiDirectional4X4Mesh.CreatePathFinder(PathType.Random);
 
