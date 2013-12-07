@@ -53,5 +53,15 @@
 
             Assert.That(PathToString(path), Is.EqualTo("()"));
         }
+
+        [Test]
+        public void Should_take_weight_into_consideration_when_finding_longest_path()
+        {
+            var grap = ExampleGraphs.WeightedBiDirectional.CreatePathFinder(PathType.Longest);
+
+            var path = grap.PathBetween('c', 'a');
+
+            Assert.That(PathToString(path), Is.EqualTo("c -> b -> a"));
+        }
     }
 }

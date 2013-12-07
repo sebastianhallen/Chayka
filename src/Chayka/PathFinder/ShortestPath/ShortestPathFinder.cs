@@ -13,7 +13,7 @@
         public ShortestPathFinder(IEnumerable<IVertex<T>> vertices, IEnumerable<IEdge<IVertex<T>>> edges)
         {
             var graph = QuickGraphGraphBuilder<T>.Build(vertices, edges);
-            this.algorithm = new FloydWarshallAllShortestPathAlgorithm<IVertex<T>, QuickGraphEdge<T>>(graph, edge => 1);
+            this.algorithm = new FloydWarshallAllShortestPathAlgorithm<IVertex<T>, QuickGraphEdge<T>>(graph, edge => edge.Weight);
             this.algorithm.Compute();
         }
 

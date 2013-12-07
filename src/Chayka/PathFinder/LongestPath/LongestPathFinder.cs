@@ -50,8 +50,9 @@ namespace Chayka.PathFinder.LongestPath
                                  let fromSourceSources = fromSource.Select(p => p.Source)
                                  where !fromPivotSources.Intersect(fromSourceSources).Any()
                                  select fromSource.Concat(fromPivot);
+
             var orderedCombinedPaths = from p in pathsViaPivots
-                                       orderby p.Count() descending
+                                       orderby p.Sum(e => e.Weight) descending
                                        select p;
             
             if (orderedCombinedPaths.Any())
@@ -79,7 +80,7 @@ namespace Chayka.PathFinder.LongestPath
 
         private IEnumerable<Chayka.IEdge<IVertex<T>>>[] GetPaths()
         {
-            var algorithm = new FloydWarshallAllShortestPathAlgorithm<IVertex<T>, QuickGraphEdge<T>>(this.graph, edge => 1);
+            var algorithm = new FloydWarshallAllShortestPathAlgorithm<IVertex<T>, QuickGraphEdge<T>>(this.graph, edge => edge.Weight);
             algorithm.Compute();
 
             var foundPaths = new List<IEnumerable<Chayka.IEdge<IVertex<T>>>>();

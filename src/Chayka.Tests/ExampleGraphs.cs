@@ -23,24 +23,43 @@
             }
         }
 
-        public static ExampleGraphs OverrideNext(IRandomWalkSessionFactory sessionFactory)
+        public static void OverrideNext(IRandomWalkSessionFactory sessionFactory)
         {
             _randomWalkSessionFactoryField = sessionFactory;
             _sessionFactoryTainted = true;
-
-            return new ExampleGraphs();
         }
 
 
 /*
-          
-                0
-               / \
-              1   4
-             /   / \
-            2---5   6
-           /       / \
-          3<------7   8
+        (a)-- 1 --(e)
+         |         |
+         2         1
+         |         |
+        (b)       (d)
+          \       /
+           2     1
+            \   /
+             (c)
+  
+*/
+        public static IGraphBuilder<char> WeightedBiDirectional
+        {
+            get
+            {
+                return new DefaultGraphBuilder<char>(RandomWalkSessionFactory)
+                    .Vertices('a', 'b', 'c', 'd', 'e')
+                    .Bi('a', 'b', 2).Bi('b', 'c', 2).Bi('c', 'd', 1).Bi('d', 'e', 1).Bi('e', 'a', 1);
+            }
+        }
+
+/*
+                (0)
+               /   \
+             (1)   (4)
+             /     / \
+           (2)--(5)  (6)
+           /         / \
+         (3)<------(7) (8)
 */
 
         public static IGraphBuilder<int> BiDirectionalPyramid
@@ -56,13 +75,13 @@
         }
 
 /*
-            a---b---c---d
-            |   |   |   |
-            e---f---g---h
-            |   |   |   |
-            i---j---k---l
-            |   |   |   |
-            m---n---o---p
+            (a)---(b)---(c)---(d)
+             |     |     |     |
+            (e)---(f)---(g)---(h)
+             |     |     |     |
+            (i)---(j)---(k)---(l)
+             |     |     |     |
+            (m)---(n)---(o)---(p)
           
 */
         public static IGraphBuilder<char> BiDirectional4X4
@@ -83,16 +102,15 @@
             }
         }
 
-/*
-            a---b---c---d
-            | X | X | X |
-            e---f---g---h
-            | X | X | X |
-            i---j---k---l
-            | X | X | X |
-            m---n---o---p
-          
-*/
+        /*
+                    (a)---(b)---(c)---(d)
+                     |  X  |  X  |  X  |
+                    (e)---(f)---(g)---(h)
+                     |  X  |  X  |  X  |
+                    (i)---(j)---(k)---(l)
+                     |  X  |  X  |  X  |
+                    (m)---(n)---(o)---(p)
+        */
         public static IGraphBuilder<char> BiDirectional4X4Mesh
         {
             get
@@ -109,10 +127,10 @@
         }
 
 /*
-            a--->b
-            ∧    |
-            |    ∨
-            c<---d
+            (a)-->(b)
+             ∧    |
+             |    ∨
+            (c)<--(d)
 */
         public static IGraphBuilder<char> UniDirectedSquare
         {
@@ -126,7 +144,7 @@
         }
 
 /*
-            a-->b-->c
+            (a)-->(b)-->(c)
 */
         public static IGraphBuilder<char> UniDirectedLinear
         {
@@ -152,12 +170,12 @@
             return builder;
         }
 
-        public static IGraphBuilder<T> Uni<T>(this IGraphBuilder<T> builder, T source, T target, int weight = 1)
+        public static IGraphBuilder<T> Uni<T>(this IGraphBuilder<T> builder, T source, T target, double weight = 1)
         {
             return builder.AddEdge(source, target, weight);
         }
 
-        public static IGraphBuilder<T> Bi<T>(this IGraphBuilder<T> builder, T a, T b, int weight = 1)
+        public static IGraphBuilder<T> Bi<T>(this IGraphBuilder<T> builder, T a, T b, double weight = 1)
         {
             return builder.Uni(a, b, weight).Uni(b, a, weight);
         }

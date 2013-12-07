@@ -31,6 +31,11 @@
         }
         public Chayka.IEdge<IVertex<T>> WrappedEdge { get; private set; }
 
+        public double Weight
+        {
+            get { return this.WrappedEdge.Weight; }
+        }
+
         public QuickGraphEdge(Chayka.IEdge<IVertex<T>> edge)
         {
             this.WrappedEdge = edge;

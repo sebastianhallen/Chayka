@@ -7,9 +7,9 @@
     {
         public T Source { get; private set; }
         public T Target { get; private set; }
-        public int Weight { get; private set; }
+        public double Weight { get; private set; }
 
-        public DefaultEdge(T source, T target, int weight = 1)
+        public DefaultEdge(T source, T target, double weight = 1)
         {
             this.Source = source;
             this.Target = target;
@@ -20,7 +20,7 @@
         {
             return EqualityComparer<T>.Default.Equals(Source, other.Source)
                 && EqualityComparer<T>.Default.Equals(Target, other.Target)
-                && Weight == other.Weight;
+                && Weight.Equals(other.Weight);
         }
 
         public override bool Equals(object obj)
@@ -37,7 +37,7 @@
             {
                 int hashCode = EqualityComparer<T>.Default.GetHashCode(Source);
                 hashCode = (hashCode*397) ^ EqualityComparer<T>.Default.GetHashCode(Target);
-                hashCode = (hashCode*397) ^ Weight;
+                hashCode = (hashCode*397) ^ Weight.GetHashCode();
                 return hashCode;
             }
         }

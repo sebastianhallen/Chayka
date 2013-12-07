@@ -34,5 +34,15 @@
 
             Assert.That(path.Any(), Is.False);
         }
+
+        [Test]
+        public void Should_take_weight_into_consideration_when_finding_shortest_path()
+        {
+            var grap = ExampleGraphs.WeightedBiDirectional.CreatePathFinder(PathType.Shortest);
+
+            var path = grap.PathBetween('c', 'a');
+
+            Assert.That(PathToString(path), Is.EqualTo("c -> d -> e -> a"));
+        }
     }
 }
