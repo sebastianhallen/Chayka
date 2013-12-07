@@ -1,4 +1,4 @@
-﻿namespace Chayka
+﻿namespace Chayka.PathFinder
 {
     public enum PathType
     {

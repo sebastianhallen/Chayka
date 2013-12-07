@@ -1,8 +1,10 @@
-﻿namespace Chayka.Tests
+﻿namespace Chayka.Tests.PathFinder
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Chayka.PathFinder;
+    using Chayka.PathFinder.RandomWalk;
     using NUnit.Framework;
 
     [TestFixture]
@@ -35,8 +37,8 @@
             var path = pathFinder.PathBetween('m', 'd').ToArray();
 
             Console.WriteLine(PathToString(path));
-            Assert.That(path.First().Source, Is.EqualTo('m'));
-            Assert.That(path.Last().Target, Is.EqualTo('d'));
+            Assert.That(path.First().Source.Content, Is.EqualTo('m'));
+            Assert.That(path.Last().Target.Content, Is.EqualTo('d'));
         }
 
         [Test]
@@ -45,7 +47,7 @@
             ExampleGraphs.OverrideNext(new DefaultRandomWalkSessionFactory(new DefaultRandomizer(1337), 7));
             var pathFinder = ExampleGraphs.BiDirectional4X4Mesh.CreatePathFinder(PathType.Random);
 
-            IEnumerable<IEdge<char>> _;
+            IEnumerable<IEdge<IVertex<char>>> _;
             var pathFound = pathFinder.TryGetPathBetween('m', 'd', out _);
 
             Assert.That(pathFound, Is.False);

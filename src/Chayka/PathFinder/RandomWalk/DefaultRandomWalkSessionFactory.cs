@@ -1,4 +1,4 @@
-﻿namespace Chayka
+﻿namespace Chayka.PathFinder.RandomWalk
 {
     using System.Collections.Generic;
 
@@ -19,7 +19,7 @@
             this.maxPathLength = maxPathLength;
         }
 
-        public IRandomWalkSession<T> Start<T>(IEnumerable<QuickGraph.IEdge<T>> edges)
+        public IRandomWalkSession<T> Start<T>(IEnumerable<IEdge<IVertex<T>>> edges)
         {
             return new DefaultRandomWalkSession<T>(edges, this.randomizer, this.maxPathLength);
         }

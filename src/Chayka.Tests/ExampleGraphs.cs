@@ -1,6 +1,8 @@
 ﻿namespace Chayka.Tests
 {
     using System.Linq;
+    using Chayka.GraphBuilder;
+    using Chayka.PathFinder.RandomWalk;
 
     public class ExampleGraphs
     {

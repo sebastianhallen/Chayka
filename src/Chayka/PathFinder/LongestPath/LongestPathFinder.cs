@@ -1,5 +1,7 @@
-namespace Chayka
+namespace Chayka.PathFinder.LongestPath
 {
+    using Chayka.GraphBuilder;
+    using QuickGraph;
     using QuickGraph.Algorithms.ShortestPath;
     using System.Collections.Generic;
     using System.Linq;
@@ -10,22 +12,23 @@ namespace Chayka
     //  finding all paths from source to pivotCandidate source
     //  must not visit nodes twice
     //  if no "longest" path found, return shortest path, if available
-    public class LongestPathGraph<T>
-        : QuickGraphGraph<T>
+    public class LongestPathFinder<T>
+        : PathFinderBase<T>
     {
-        private IEnumerable<IEdge<T>>[] paths;
+        private readonly IEnumerable<Chayka.IEdge<IVertex<T>>>[] paths;
+        private readonly IBidirectionalGraph<IVertex<T>, QuickGraphEdge<T>> graph;
 
-        public LongestPathGraph(IEnumerable<IVertex<T>> vertices, IEnumerable<IEdge<T>> edges) 
-            : base(vertices, edges)
+        public LongestPathFinder(IEnumerable<IVertex<T>> vertices, IEnumerable<Chayka.IEdge<IVertex<T>>> edges)
         {
+            this.graph = QuickGraphGraphBuilder<T>.Build(vertices, edges);
             this.paths = this.GetPaths();
         }
 
-        public override bool TryGetPathBetween(T source, T target, out IEnumerable<IEdge<T>> path)
+        public override bool TryGetPathBetween(IVertex<T> source, IVertex<T> target, out IEnumerable<Chayka.IEdge<IVertex<T>>> path)
         {
             if (Equals(source, target))
             {
-                path = Enumerable.Empty<IEdge<T>>();
+                path = Enumerable.Empty<Chayka.IEdge<IVertex<T>>>();
                 return true;
             }
 
@@ -69,24 +72,24 @@ namespace Chayka
                 return true;
             }
 
-            path = Enumerable.Empty<IEdge<T>>();
+            path = Enumerable.Empty<Chayka.IEdge<IVertex<T>>>();
             return false;
 
         }
 
-        private IEnumerable<IEdge<T>>[] GetPaths()
+        private IEnumerable<Chayka.IEdge<IVertex<T>>>[] GetPaths()
         {
-            var algorithm = new FloydWarshallAllShortestPathAlgorithm<T, QuickGraph.IEdge<T>>(this.Graph, edge => 1);
+            var algorithm = new FloydWarshallAllShortestPathAlgorithm<IVertex<T>, QuickGraphEdge<T>>(this.graph, edge => 1);
             algorithm.Compute();
 
-            var foundPaths = new List<IEnumerable<IEdge<T>>>();
-            foreach (var source in this.Graph.Vertices)
-                foreach (var target in this.Graph.Vertices)
+            var foundPaths = new List<IEnumerable<Chayka.IEdge<IVertex<T>>>>();
+            foreach (var source in this.graph.Vertices)
+                foreach (var target in this.graph.Vertices)
                 {
-                    IEnumerable<QuickGraph.IEdge<T>> path;
+                    IEnumerable<QuickGraphEdge<T>> path;
                     if (algorithm.TryGetPath(source, target, out path))
                     {
-                        foundPaths.Add(path.Cast<QuickGraphEdge>().Select(edge => edge.WrappedEdge).ToArray());
+                        foundPaths.Add(path.Select(edge => edge.WrappedEdge).ToArray());
                     }
                 }
 

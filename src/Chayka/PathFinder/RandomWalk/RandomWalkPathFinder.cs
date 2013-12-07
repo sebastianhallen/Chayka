@@ -1,41 +1,42 @@
-namespace Chayka
+namespace Chayka.PathFinder.RandomWalk
 {
     using System.Collections.Generic;
     using System.Linq;
-
-    public class RandomPathGraph<T>
-        : QuickGraphGraph<T>
+    
+    public class RandomWalkPathFinder<T>
+        : PathFinderBase<T>
     {
         private readonly IRandomWalkSessionFactory sessionFactory;
+        private readonly IEnumerable<IEdge<IVertex<T>>> edges;
 
-        public RandomPathGraph(IRandomWalkSessionFactory sessionFactory, IEnumerable<IVertex<T>> vertices, IEnumerable<IEdge<T>> edges) 
-            : base(vertices, edges)
+        public RandomWalkPathFinder(IRandomWalkSessionFactory sessionFactory, IEnumerable<IEdge<IVertex<T>>> edges)
         {
             this.sessionFactory = sessionFactory;
+            this.edges = edges;
         }
 
-        public override bool TryGetPathBetween(T source, T target, out IEnumerable<IEdge<T>> path)
+        public override bool TryGetPathBetween(IVertex<T> source, IVertex<T> target, out IEnumerable<IEdge<IVertex<T>>> path)
         {
-            var session = this.sessionFactory.Start(this.Graph.Edges);
+            var session = this.sessionFactory.Start(this.edges);
             return this.TryCreatePath(session, source, target, out path);
             
         }
 
-        private bool TryCreatePath(IRandomWalkSession<T> session, T source, T target, out IEnumerable<IEdge<T>> path)
+        private bool TryCreatePath(IRandomWalkSession<T> session, IVertex<T> source, IVertex<T> target, out IEnumerable<IEdge<IVertex<T>>> path)
         {
             if (Equals(source, target))
             {
-                path = Enumerable.Empty<IEdge<T>>();
+                path = Enumerable.Empty<IEdge<IVertex<T>>>();
                 return true;
             }
 
-            var candidate = new List<QuickGraph.IEdge<T>>();
+            var candidate = new List<IEdge<IVertex<T>>>();
             var pathFound = false;
 
             var current = source;
             while (!Equals(current, target))
             {
-                QuickGraph.IEdge<T> edge;
+                IEdge<IVertex<T>> edge;
                 if (!session.TryGetNextEdge(current, out edge))
                 {
                     break;
@@ -50,7 +51,7 @@ namespace Chayka
                     break;
                 }
             }
-            path = candidate.Cast<QuickGraphEdge>().Select(edge => edge.WrappedEdge);
+            path = candidate;
             return pathFound;
         }
     }

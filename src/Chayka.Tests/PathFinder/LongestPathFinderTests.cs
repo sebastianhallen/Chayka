@@ -1,6 +1,7 @@
-﻿namespace Chayka.Tests
+﻿namespace Chayka.Tests.PathFinder
 {
     using System.Collections.Generic;
+    using Chayka.PathFinder;
     using NUnit.Framework;
 
     [TestFixture]
@@ -47,7 +48,7 @@
         {
             var pathFinder = ExampleGraphs.UniDirectedSquare.CreatePathFinder(PathType.Longest);
 
-            IEnumerable<IEdge<char>> path;
+            IEnumerable<IEdge<IVertex<char>>> path;
             pathFinder.TryGetPathBetween('a', 'a', out path);
 
             Assert.That(PathToString(path), Is.EqualTo("()"));

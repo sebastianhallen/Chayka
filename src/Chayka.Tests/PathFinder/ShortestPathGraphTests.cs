@@ -1,6 +1,7 @@
-﻿namespace Chayka.Tests
+﻿namespace Chayka.Tests.PathFinder
 {
     using System.Collections.Generic;
+    using Chayka.PathFinder;
     using NUnit.Framework;
     using System.Linq;
 
@@ -28,7 +29,7 @@
         {
             var graph = ExampleGraphs.UniDirectedLinear.CreatePathFinder(PathType.Shortest);
 
-            IEnumerable<IEdge<char>> path;
+            IEnumerable<IEdge<IVertex<char>>> path;
             graph.TryGetPathBetween('c', 'b', out path);
 
             Assert.That(path.Any(), Is.False);

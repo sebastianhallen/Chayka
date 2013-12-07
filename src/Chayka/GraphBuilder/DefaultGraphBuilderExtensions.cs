@@ -1,4 +1,4 @@
-﻿namespace Chayka
+﻿namespace Chayka.GraphBuilder
 {
     public static class DefaultGraphBuilderExtensions
     {
@@ -9,7 +9,7 @@
 
         public static IGraphBuilder<T> AddEdge<T>(this IGraphBuilder<T> builder, T source, T target)
         {
-            return builder.AddEdge(new DefaultEdge<T>(source, target));
+            return builder.AddEdge(new DefaultEdge<IVertex<T>>(new DefaultVertex<T>(source), new DefaultVertex<T>(target)));
         }
     }
 }

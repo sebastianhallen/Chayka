@@ -1,13 +1,15 @@
-﻿namespace Chayka.Tests
+﻿namespace Chayka.Tests.PathFinder
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Chayka.GraphBuilder;
+    using Chayka.PathFinder;
     using NUnit.Framework;
 
     public abstract class PathTest
     {
         protected abstract PathType PathType { get; }
-        protected static string PathToString<T>(IEnumerable<IEdge<T>> path)
+        protected static string PathToString<T>(IEnumerable<IEdge<IVertex<T>>> path)
         {
             var pathArray = path.ToArray();
 
@@ -23,7 +25,7 @@
         {
             var graph = ExampleGraphs.UniDirectedLinear.CreatePathFinder(this.PathType);
 
-            IEnumerable<IEdge<char>> _;
+            IEnumerable<IEdge<IVertex<char>>> _;
             var isValidPath = graph.TryGetPathBetween('a', 'a', out _);
 
             Assert.That(isValidPath);
@@ -34,7 +36,7 @@
         {
             var graph = ExampleGraphs.UniDirectedLinear.CreatePathFinder(this.PathType);
 
-            IEnumerable<IEdge<char>> path;
+            IEnumerable<IEdge<IVertex<char>>> path;
             graph.TryGetPathBetween('a', 'a', out path);
 
             Assert.That(path.Any(), Is.False);
@@ -45,7 +47,7 @@
         {
             var pathFinder = ExampleGraphs.BiDirectional4X4Mesh.AddVertex('ö').CreatePathFinder(this.PathType);
 
-            IEnumerable<IEdge<char>> _;
+            IEnumerable<IEdge<IVertex<char>>> _;
             var pathFound = pathFinder.TryGetPathBetween('m', 'ö', out _);
 
             Assert.That(pathFound, Is.False);
