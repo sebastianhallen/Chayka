@@ -152,14 +152,14 @@
             return builder;
         }
 
-        public static IGraphBuilder<T> Uni<T>(this IGraphBuilder<T> builder, T source, T target)
+        public static IGraphBuilder<T> Uni<T>(this IGraphBuilder<T> builder, T source, T target, int weight = 1)
         {
-            return builder.AddEdge(source, target);
+            return builder.AddEdge(source, target, weight);
         }
 
-        public static IGraphBuilder<T> Bi<T>(this IGraphBuilder<T> builder, T a, T b)
+        public static IGraphBuilder<T> Bi<T>(this IGraphBuilder<T> builder, T a, T b, int weight = 1)
         {
-            return builder.Uni(a, b).Uni(b, a);
+            return builder.Uni(a, b, weight).Uni(b, a, weight);
         }
     }
 }
