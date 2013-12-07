@@ -6,16 +6,6 @@
 
     public class ExampleGraphs
     {
-        /*
-                0
-               / \
-              1   4
-             /   / \
-            2---5   6
-           /       / \
-          3-------7   8
-        */
-
         private static bool _sessionFactoryTainted;
         private static IRandomWalkSessionFactory _randomWalkSessionFactoryField; 
         private static IRandomWalkSessionFactory RandomWalkSessionFactory
@@ -41,28 +31,31 @@
             return new ExampleGraphs();
         }
 
+
+/*
+          
+                0
+               / \
+              1   4
+             /   / \
+            2---5   6
+           /       / \
+          3<------7   8
+*/
+
         public static IGraphBuilder<int> BiDirectionalPyramid
         {
             get
             {
                 return new DefaultGraphBuilder<int>(RandomWalkSessionFactory)
-                    .AddVertex(0).AddVertex(1).AddVertex(2)
-                    .AddVertex(3).AddVertex(4).AddVertex(5)
-                    .AddVertex(6).AddVertex(7).AddVertex(8)
-                    .AddEdge(0, 1).AddEdge(1, 0)
-                    .AddEdge(1, 2).AddEdge(2, 1)
-                    .AddEdge(2, 3).AddEdge(2, 5).AddEdge(3, 2)
-                    .AddEdge(2, 5)
-
-                    .AddEdge(0, 4).AddEdge(4, 0)
-                    .AddEdge(4, 5).AddEdge(5, 4).AddEdge(4, 6).AddEdge(6, 4)
-                    .AddEdge(5, 2)
-                    .AddEdge(6, 7).AddEdge(6, 8).AddEdge(7, 6).AddEdge(8, 6)
-                    .AddEdge(7, 3);
+                                    .Vertices(Enumerable.Range(0, 9).ToArray())
+                                    .Bi(0, 1).Bi(0, 4)
+                                    .Bi(1, 2).Bi(2, 5).Bi(4, 5).Bi(4, 6)
+                                    .Bi(2, 3).Uni(7, 3).Bi(6, 7).Bi(6, 8);
             }
         }
 
-        /*
+/*
             a---b---c---d
             |   |   |   |
             e---f---g---h
@@ -71,7 +64,7 @@
             |   |   |   |
             m---n---o---p
           
-        */
+*/
         public static IGraphBuilder<char> BiDirectional4X4
         {
             get
@@ -90,7 +83,7 @@
             }
         }
 
-        /*
+/*
             a---b---c---d
             | X | X | X |
             e---f---g---h
@@ -99,7 +92,7 @@
             | X | X | X |
             m---n---o---p
           
-        */
+*/
         public static IGraphBuilder<char> BiDirectional4X4Mesh
         {
             get
@@ -115,36 +108,34 @@
             }
         }
 
-        /*
+/*
             a--->b
             ∧    |
             |    ∨
             c<---d
-        */
+*/
         public static IGraphBuilder<char> UniDirectedSquare
         {
             get
             {
                 return new DefaultGraphBuilder<char>(RandomWalkSessionFactory)
-                    .AddVertex('a').AddVertex('b').AddVertex('c').AddVertex('d')
-                    .AddEdge('a', 'b').AddEdge('b', 'd').AddEdge('d', 'c').AddEdge('c', 'a');
+                    .Vertices('a', 'b', 'c','d')
+                    .Uni('a', 'b').Uni('b', 'd').Uni('d', 'c').Uni('c', 'a');
 
             }
         }
 
-        /*
+/*
             a-->b-->c
-        */
+*/
         public static IGraphBuilder<char> UniDirectedLinear
         {
             get
             {
                 return new DefaultGraphBuilder<char>(RandomWalkSessionFactory)
-                                .AddVertex('a')
-                                .AddVertex('b')
-                                .AddVertex('c')
-                                .AddEdge('a', 'b')
-                                .AddEdge('b', 'c');
+                                .Vertices('a','b','c')
+                                .Uni('a', 'b')
+                                .Uni('b', 'c');
             }
         }
     }
