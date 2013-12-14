@@ -53,12 +53,16 @@
   <ItemGroup>
     <Compile Include="DefaultEdge.cs" />
     <Compile Include="DefaultGraph.cs" />
-    <Compile Include="DefaultGraphWalker.cs" />
+    <Compile Include="Lookup\DefaultEdgeFinder.cs" />
+    <Compile Include="Lookup\IEdgeFinder.cs" />
+    <Compile Include="Walker\DefaultGraphWalker.cs" />
     <Compile Include="GraphBuilder\DefaultGraphBuilder.cs" />
     <Compile Include="GraphBuilder\DefaultGraphBuilderExtensions.cs" />
     <Compile Include="GraphBuilder\GraphConstructionException.cs" />
     <Compile Include="GraphBuilder\QuickGraphEdge.cs" />
-    <Compile Include="IGraphWalker.cs" />
+    <Compile Include="Lookup\DefaultVertexFinder.cs" />
+    <Compile Include="Lookup\GraphLookupException.cs" />
+    <Compile Include="Walker\IGraphWalker.cs" />
     <Compile Include="IGraph.cs" />
     <Compile Include="PathFinder\NoPathFoundException.cs" />
     <Compile Include="PathFinder\RandomWalk\DefaultRandomizer.cs" />
@@ -79,6 +83,7 @@
     <Compile Include="PathFinder\RandomWalk\RandomWalkPathFinder.cs" />
     <Compile Include="PathFinder\ShortestPath\ShortestPathFinder.cs" />
     <Compile Include="GraphBuilder\QuickGraphGraphBuilder.cs" />
+    <Compile Include="Lookup\IVertexFinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

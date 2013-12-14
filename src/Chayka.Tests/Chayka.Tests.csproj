@@ -48,6 +48,7 @@
     <Compile Include="DefaultGraphBuilderTests.cs" />
     <Compile Include="DefaultGraphTests.cs" />
     <Compile Include="GraphBuilderTests.cs" />
+    <Compile Include="Lookup\EdgeFinderTests.cs" />
     <Compile Include="PathFinder\DefaultRandomWalkSessionTests.cs" />
     <Compile Include="ExampleGraphs.cs" />
     <Compile Include="PathFinder\LongestPathFinderTests.cs" />
@@ -56,7 +57,10 @@
     <Compile Include="PathFinder\ShortestPathGraphTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UsageTest.cs" />
-    <Compile Include="WalkerTests.cs" />
+    <Compile Include="Walker\RandomWalkWalkerTests.cs" />
+    <Compile Include="Lookup\VertexFinderTests.cs" />
+    <Compile Include="Walker\VertexToVertexWalkerTests.cs" />
+    <Compile Include="Walker\WalkerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Chayka\Chayka.csproj">

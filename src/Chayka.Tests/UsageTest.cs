@@ -6,8 +6,10 @@
     using System.Text;
     using System.Threading.Tasks;
     using Chayka.GraphBuilder;
+    using Chayka.Lookup;
     using Chayka.PathFinder;
     using Chayka.PathFinder.RandomWalk;
+    using Chayka.Walker;
     using NUnit.Framework;
 
     [TestFixture]
@@ -50,7 +52,7 @@
                 
                 .Build();
 
-            this.walker = new DefaultGraphWalker<State>(this.model, new DefaultRandomizer(1337));
+            this.walker = new DefaultGraphWalker<State>(this.model, new DefaultVertexFinder<State>(), new DefaultEdgeFinder<State>(), new DefaultRandomizer(1337));
         }
 
         [Test]

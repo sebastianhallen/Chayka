@@ -1,6 +1,7 @@
-﻿namespace Chayka
+﻿namespace Chayka.Walker
 {
     using System.Linq;
+    using Chayka.Lookup;
     using Chayka.PathFinder;
     using Chayka.PathFinder.RandomWalk;
 
@@ -8,11 +9,15 @@
         : IGraphWalker<T>
     {
         private readonly IGraph<T> graph;
+        private readonly IVertexFinder<T> vertexFinder;
+        private readonly IEdgeFinder<T> edgeFinder;
         private readonly IRandomizer randomizer;
 
-        public DefaultGraphWalker(IGraph<T> graph, IRandomizer randomizer)
+        public DefaultGraphWalker(IGraph<T> graph, IVertexFinder<T> vertexFinder, IEdgeFinder<T> edgeFinder, IRandomizer randomizer)
         {
             this.graph = graph;
+            this.vertexFinder = vertexFinder;
+            this.edgeFinder = edgeFinder;
             this.randomizer = randomizer;
         }
 
@@ -30,13 +35,18 @@
 
         public void RandomWalk(T startVertex, int steps)
         {
-            var currentVertex = this.graph.Vertices.Single(vertex => Equals(startVertex, vertex.Content));
+            var currentVertex = this.vertexFinder.Find(this.graph, startVertex);
+
+            if (Equals(null, currentVertex))
+            {
+                throw GraphLookupException.VertexNotFound(startVertex);
+            }
+
             for (var i = 0; i < steps; ++i)
             {
-                var currentEdge = (from edge in this.graph.Edges
-                                     where Equals(edge.Source, currentVertex)
-                                     orderby this.randomizer.NextInt(int.MaxValue)
-                                     select edge).First();
+                var currentEdge = (from edge in this.edgeFinder.FindEgesFrom(this.graph, currentVertex)
+                                   orderby this.randomizer.NextInt(int.MaxValue)
+                                   select edge).First();
                 currentEdge.OnTraverse();
 
                 currentVertex = currentEdge.Target;
