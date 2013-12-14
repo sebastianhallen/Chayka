@@ -15,7 +15,7 @@
         [Fake] protected IVertexFinder<int> vertexFinder;
         [Fake] protected IEdgeFinder<int> edgeFinder;
         [Fake] protected IRandomizer randomizer;
-
+        [Fake] protected ITraverseableEdgeChecker<int> edgeChecker;
         [SetUp]
         public void Before()
         {

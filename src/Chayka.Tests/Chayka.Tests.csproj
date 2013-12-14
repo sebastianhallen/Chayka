@@ -47,6 +47,8 @@
   <ItemGroup>
     <Compile Include="DefaultGraphBuilderTests.cs" />
     <Compile Include="DefaultGraphTests.cs" />
+    <Compile Include="EdgeCheckerFake.cs" />
+    <Compile Include="ExampleApp\SearchAndFavoriteActions.cs" />
     <Compile Include="GraphBuilderTests.cs" />
     <Compile Include="Lookup\EdgeFinderTests.cs" />
     <Compile Include="PathFinder\DefaultRandomWalkSessionTests.cs" />

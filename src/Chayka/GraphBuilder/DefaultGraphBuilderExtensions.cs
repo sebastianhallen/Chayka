@@ -9,9 +9,9 @@
             return builder.AddVertex(new DefaultVertex<T>(vertex));
         }
 
-        public static IGraphBuilder<T> AddEdge<T>(this IGraphBuilder<T> builder, T source, T target, Action<IVertex<T>> onTraverse, double weight = 1)
+        public static IGraphBuilder<T> AddEdge<T>(this IGraphBuilder<T> builder, T source, T target, Action<IVertex<T>> onTraverse, Func<bool> isWalkable = null, double weight = 1)
         {
-            return builder.AddEdge(new DefaultEdge<IVertex<T>>(new DefaultVertex<T>(source), new DefaultVertex<T>(target), onTraverse, weight));
+            return builder.AddEdge(new DefaultEdge<IVertex<T>>(new DefaultVertex<T>(source), new DefaultVertex<T>(target), onTraverse, isWalkable ?? (() => true), weight));
         }
     }
 }

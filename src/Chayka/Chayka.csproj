@@ -53,7 +53,10 @@
   <ItemGroup>
     <Compile Include="DefaultEdge.cs" />
     <Compile Include="DefaultGraph.cs" />
+    <Compile Include="Lookup\AlwaysTrueTraversableEdgeChecker.cs" />
     <Compile Include="Lookup\DefaultEdgeFinder.cs" />
+    <Compile Include="Lookup\EdgeCheckingTraverseableEdgeChecker.cs" />
+    <Compile Include="Lookup\ExternalTraverseableEdgeChecker.cs" />
     <Compile Include="Lookup\IEdgeFinder.cs" />
     <Compile Include="Walker\DefaultGraphWalker.cs" />
     <Compile Include="GraphBuilder\DefaultGraphBuilder.cs" />

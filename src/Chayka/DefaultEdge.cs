@@ -7,10 +7,12 @@
         : IEdge<T>
     {
         private readonly Action<T> onTraverse;
+        private readonly Func<bool> isWalkable;
 
-        public DefaultEdge(T source, T target, Action<T> onTraverse, double weight = 1)
+        public DefaultEdge(T source, T target, Action<T> onTraverse, Func<bool> isWalkable = null, double weight = 1)
         {
             this.onTraverse = onTraverse;
+            this.isWalkable = isWalkable;
             this.Source = source;
             this.Target = target;
             this.Weight = weight;
@@ -23,6 +25,11 @@
         public void OnTraverse()
         {
             this.onTraverse(this.Source);
+        }
+
+        public bool IsWalkable()
+        {
+            return this.isWalkable();
         }
 
         protected bool Equals(DefaultEdge<T> other)

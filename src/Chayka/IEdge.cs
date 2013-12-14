@@ -6,5 +6,6 @@
         T Target { get; }
         double Weight { get; }
         void OnTraverse();
+        bool IsWalkable();
     }
 }

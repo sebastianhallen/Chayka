@@ -13,7 +13,7 @@
         public void Should_use_randomizer_when_sorting_edges_in_a_random_walk()
         {
             A.CallTo(() => this.vertexFinder.Find(graph, 0)).Returns(A.Dummy<IVertex<int>>());
-            A.CallTo(() => this.edgeFinder.FindEgesFrom(this.graph, A<IVertex<int>>._)).Returns(new[] { A.Dummy<IEdge<IVertex<int>>>() });
+            A.CallTo(() => this.edgeFinder.FindEgesFrom(this.graph, A<IVertex<int>>._, this.edgeChecker)).Returns(new[] { A.Dummy<IEdge<IVertex<int>>>() });
 
             this.walker.RandomWalk(0, 2);
 
@@ -26,11 +26,11 @@
             var startVertex = A.Fake<IVertex<int>>();
             var startEdge = A.Fake<IEdge<IVertex<int>>>();
             A.CallTo(() => this.vertexFinder.Find(this.graph, 100)).Returns(startVertex);
-            A.CallTo(() => this.edgeFinder.FindEgesFrom(this.graph, startVertex)).Returns(new[] {startEdge});
+            A.CallTo(() => this.edgeFinder.FindEgesFrom(this.graph, startVertex, this.edgeChecker)).Returns(new[] { startEdge });
 
             this.walker.RandomWalk(100, 1);
 
-            A.CallTo(() => this.edgeFinder.FindEgesFrom(this.graph, startVertex)).MustHaveHappened();
+            A.CallTo(() => this.edgeFinder.FindEgesFrom(this.graph, startVertex, this.edgeChecker)).MustHaveHappened();
         }
 
         [Test]
@@ -42,8 +42,8 @@
             var nextEdge = A.Fake<IEdge<IVertex<int>>>();
             
             A.CallTo(() => this.vertexFinder.Find(this.graph, 100)).Returns(startVertex);
-            A.CallTo(() => this.edgeFinder.FindEgesFrom(this.graph, startVertex)).Returns(new[] {startEdge});
-            A.CallTo(() => this.edgeFinder.FindEgesFrom(this.graph, nextVertex)).Returns(new[] {nextEdge});
+            A.CallTo(() => this.edgeFinder.FindEgesFrom(this.graph, startVertex, this.edgeChecker)).Returns(new[] { startEdge });
+            A.CallTo(() => this.edgeFinder.FindEgesFrom(this.graph, nextVertex, this.edgeChecker)).Returns(new[] { nextEdge });
             A.CallTo(() => startEdge.Target).Returns(nextVertex);
 
             this.walker.RandomWalk(100, 2);

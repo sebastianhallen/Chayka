@@ -6,10 +6,11 @@ namespace Chayka.Lookup
     public class DefaultEdgeFinder<T>
         : IEdgeFinder<T>
     {
-        public IEnumerable<IEdge<IVertex<T>>> FindEgesFrom(IGraph<T> graph, IVertex<T> vertex)
+        public IEnumerable<IEdge<IVertex<T>>> FindEgesFrom(IGraph<T> graph, IVertex<T> vertex, ITraverseableEdgeChecker<T> traverseableEdgeChecker)
         {
             return from edge in graph.Edges
                    where VerticesMatch(edge.Source, vertex)
+                   where traverseableEdgeChecker.IsTraverseable(edge)
                    select edge;
         }
 

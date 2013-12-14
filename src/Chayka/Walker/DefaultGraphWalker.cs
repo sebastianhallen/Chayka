@@ -12,13 +12,15 @@
         private readonly IVertexFinder<T> vertexFinder;
         private readonly IEdgeFinder<T> edgeFinder;
         private readonly IRandomizer randomizer;
+        private readonly ITraverseableEdgeChecker<T> edgeChecker;
 
-        public DefaultGraphWalker(IGraph<T> graph, IVertexFinder<T> vertexFinder, IEdgeFinder<T> edgeFinder, IRandomizer randomizer)
+        public DefaultGraphWalker(IGraph<T> graph, IVertexFinder<T> vertexFinder, IEdgeFinder<T> edgeFinder, IRandomizer randomizer, ITraverseableEdgeChecker<T> edgeChecker)
         {
             this.graph = graph;
             this.vertexFinder = vertexFinder;
             this.edgeFinder = edgeFinder;
             this.randomizer = randomizer;
+            this.edgeChecker = edgeChecker;
         }
 
         public void WalkBetween(T souce, T target, PathType pathType)
@@ -44,7 +46,7 @@
 
             for (var i = 0; i < steps; ++i)
             {
-                var currentEdge = (from edge in this.edgeFinder.FindEgesFrom(this.graph, currentVertex)
+                var currentEdge = (from edge in this.edgeFinder.FindEgesFrom(this.graph, currentVertex, this.edgeChecker)
                                    orderby this.randomizer.NextInt(int.MaxValue)
                                    select edge).FirstOrDefault();
 
