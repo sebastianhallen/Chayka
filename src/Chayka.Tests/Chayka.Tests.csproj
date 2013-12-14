@@ -50,7 +50,9 @@
     <Compile Include="EdgeCheckerFake.cs" />
     <Compile Include="ExampleApp\SearchAndFavoriteActions.cs" />
     <Compile Include="GraphBuilderTests.cs" />
+    <Compile Include="Lookup\EdgeCheckingTraversableEdgeCheckerTests.cs" />
     <Compile Include="Lookup\EdgeFinderTests.cs" />
+    <Compile Include="Lookup\ExternalTraverseableEdgeCheckerTests.cs" />
     <Compile Include="PathFinder\DefaultRandomWalkSessionTests.cs" />
     <Compile Include="ExampleGraphs.cs" />
     <Compile Include="PathFinder\LongestPathFinderTests.cs" />
