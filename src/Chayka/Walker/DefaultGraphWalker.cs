@@ -46,7 +46,13 @@
             {
                 var currentEdge = (from edge in this.edgeFinder.FindEgesFrom(this.graph, currentVertex)
                                    orderby this.randomizer.NextInt(int.MaxValue)
-                                   select edge).First();
+                                   select edge).FirstOrDefault();
+
+                if (currentEdge == null)
+                {
+                    throw GraphTraversalException.StuckOn(currentVertex);
+                }
+
                 currentEdge.OnTraverse();
 
                 currentVertex = currentEdge.Target;

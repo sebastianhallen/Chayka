@@ -60,5 +60,13 @@
 
             Assert.That(exception.Message, Is.EqualTo("Could not find vertex: 123"));
         }
+
+        [Test]
+        public void Should_abort_walk_when_unable_to_walk_any_more_edges()
+        {
+            var exception = Assert.Throws<GraphTraversalException>(() => this.walker.RandomWalk(1, 1));
+
+            Assert.That(exception.Message, Is.EqualTo("Got stuck on vertex: 0"));
+        }
     }
 }

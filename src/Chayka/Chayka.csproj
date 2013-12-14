@@ -62,6 +62,7 @@
     <Compile Include="GraphBuilder\QuickGraphEdge.cs" />
     <Compile Include="Lookup\DefaultVertexFinder.cs" />
     <Compile Include="Lookup\GraphLookupException.cs" />
+    <Compile Include="Walker\GraphTraversalException.cs" />
     <Compile Include="Walker\IGraphWalker.cs" />
     <Compile Include="IGraph.cs" />
     <Compile Include="PathFinder\NoPathFoundException.cs" />
