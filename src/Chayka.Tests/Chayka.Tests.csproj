@@ -52,6 +52,7 @@
     <Compile Include="PathFinder\RandomPathTests.cs" />
     <Compile Include="PathFinder\ShortestPathGraphTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WalkerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Chayka\Chayka.csproj">

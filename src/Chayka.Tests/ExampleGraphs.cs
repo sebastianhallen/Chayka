@@ -1,5 +1,6 @@
 ﻿namespace Chayka.Tests
 {
+    using System;
     using System.Linq;
     using Chayka.GraphBuilder;
     using Chayka.PathFinder.RandomWalk;
@@ -172,7 +173,7 @@
 
         public static IGraphBuilder<T> Uni<T>(this IGraphBuilder<T> builder, T source, T target, double weight = 1)
         {
-            return builder.AddEdge(source, target, weight);
+            return builder.AddEdge(source, target, (_ => { }), weight);
         }
 
         public static IGraphBuilder<T> Bi<T>(this IGraphBuilder<T> builder, T a, T b, double weight = 1)

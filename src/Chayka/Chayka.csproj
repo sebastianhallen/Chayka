@@ -54,6 +54,8 @@
     <Compile Include="DefaultEdge.cs" />
     <Compile Include="GraphBuilder\DefaultGraphBuilder.cs" />
     <Compile Include="GraphBuilder\DefaultGraphBuilderExtensions.cs" />
+    <Compile Include="GraphWalker.cs" />
+    <Compile Include="IGraph.cs" />
     <Compile Include="PathFinder\NoPathFoundException.cs" />
     <Compile Include="PathFinder\RandomWalk\DefaultRandomizer.cs" />
     <Compile Include="PathFinder\RandomWalk\DefaultRandomWalkSession.cs" />

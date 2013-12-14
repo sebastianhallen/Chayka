@@ -5,5 +5,6 @@
         T Source { get; }
         T Target { get; }
         double Weight { get; }
+        void OnTraverse();
     }
 }

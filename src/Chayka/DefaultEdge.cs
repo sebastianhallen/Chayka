@@ -1,19 +1,28 @@
 ﻿namespace Chayka
 {
+    using System;
     using System.Collections.Generic;
 
     public class DefaultEdge<T>
         : IEdge<T>
     {
-        public T Source { get; private set; }
-        public T Target { get; private set; }
-        public double Weight { get; private set; }
+        private readonly Action<T> onTraverse;
 
-        public DefaultEdge(T source, T target, double weight = 1)
+        public DefaultEdge(T source, T target, Action<T> onTraverse, double weight = 1)
         {
+            this.onTraverse = onTraverse;
             this.Source = source;
             this.Target = target;
             this.Weight = weight;
+        }
+
+        public T Source { get; private set; }
+        public T Target { get; private set; }
+        public double Weight { get; private set; }
+        
+        public void OnTraverse()
+        {
+            this.onTraverse(this.Source);
         }
 
         protected bool Equals(DefaultEdge<T> other)
