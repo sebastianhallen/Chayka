@@ -43,7 +43,12 @@
              (c)
   
 */
-        public static IGraphBuilder<char> WeightedBiDirectional
+        public static IGraph<char> WeightedBiDirectional
+        {
+            get { return WeightedBiDirectionalBuilder.Build(); }
+        }
+
+        private static IGraphBuilder<char> WeightedBiDirectionalBuilder
         {
             get
             {
@@ -62,8 +67,11 @@
            /         / \
          (3)<------(7) (8)
 */
-
-        public static IGraphBuilder<int> BiDirectionalPyramid
+        public static IGraph<int> BiDirectionalPyramid
+        {
+            get { return BiDirectionalPyramidBuilder.Build(); }
+        }
+        private static IGraphBuilder<int> BiDirectionalPyramidBuilder
         {
             get
             {
@@ -85,7 +93,12 @@
             (m)---(n)---(o)---(p)
           
 */
-        public static IGraphBuilder<char> BiDirectional4X4
+        public static IGraph<char> BiDirectional4X4
+        {
+            get { return BiDirectional4X4Builder.Build(); }
+        }
+
+        private static IGraphBuilder<char> BiDirectional4X4Builder
         {
             get
             {
@@ -112,11 +125,16 @@
                      |  X  |  X  |  X  |
                     (m)---(n)---(o)---(p)
         */
-        public static IGraphBuilder<char> BiDirectional4X4Mesh
+        public static IGraph<char> BiDirectional4X4Mesh
+        {
+            get { return BiDirectional4X4MeshBuilder.Build(); }
+        }
+
+        public static IGraphBuilder<char> BiDirectional4X4MeshBuilder
         {
             get
             {
-                return BiDirectional4X4
+                return BiDirectional4X4Builder
                     .Bi('a', 'f').Bi('b', 'g').Bi('c', 'h')
                     .Bi('e', 'j').Bi('f', 'k').Bi('g', 'l')
                     .Bi('i', 'n').Bi('j', 'o').Bi('k', 'p')
@@ -133,7 +151,12 @@
              |    ∨
             (c)<--(d)
 */
-        public static IGraphBuilder<char> UniDirectedSquare
+        public static IGraph<char> UniDirectedSquare
+        {
+            get { return UniDirectedSquareBuilder.Build(); }
+        }
+
+        private static IGraphBuilder<char> UniDirectedSquareBuilder
         {
             get
             {
@@ -147,12 +170,17 @@
 /*
             (a)-->(b)-->(c)
 */
-        public static IGraphBuilder<char> UniDirectedLinear
+        public static IGraph<char> UniDirectedLinear 
+        {
+            get { return UniDirectedLinearBuilder.Build(); }
+        }
+
+        private static IGraphBuilder<char> UniDirectedLinearBuilder
         {
             get
             {
                 return new DefaultGraphBuilder<char>(RandomWalkSessionFactory)
-                                .Vertices('a','b','c')
+                                .Vertices('a', 'b', 'c')
                                 .Uni('a', 'b')
                                 .Uni('b', 'c');
             }

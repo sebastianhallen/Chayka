@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultGraphTests.cs" />
+    <Compile Include="GraphBuilderTests.cs" />
     <Compile Include="PathFinder\DefaultRandomWalkSessionTests.cs" />
     <Compile Include="ExampleGraphs.cs" />
     <Compile Include="PathFinder\LongestPathFinderTests.cs" />

@@ -45,7 +45,7 @@
         [Test]
         public void Should_return_false_when_unable_to_find_a_path()
         {
-            var pathFinder = ExampleGraphs.BiDirectional4X4Mesh.AddVertex('ö').CreatePathFinder(this.PathType);
+            var pathFinder = ExampleGraphs.BiDirectional4X4MeshBuilder.AddVertex('ö').Build().CreatePathFinder(this.PathType);
 
             IEnumerable<IEdge<IVertex<char>>> _;
             var pathFound = pathFinder.TryGetPathBetween('m', 'ö', out _);
@@ -56,7 +56,7 @@
         [Test]
         public void PathBetween_should_throw_exception_when_unable_to_find_a_path()
         {
-            var pathFinder = ExampleGraphs.BiDirectional4X4Mesh.AddVertex('ö').CreatePathFinder(this.PathType);
+            var pathFinder = ExampleGraphs.BiDirectional4X4MeshBuilder.AddVertex('ö').Build().CreatePathFinder(this.PathType);
 
             Assert.Throws<NoPathFoundException>(() => pathFinder.PathBetween('m', 'ö'));
         }

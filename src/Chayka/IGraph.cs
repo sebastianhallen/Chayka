@@ -1,14 +1,13 @@
 ﻿namespace Chayka
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using Chayka.PathFinder;
 
     public interface IGraph<T>
     {
         IEnumerable<IEdge<IVertex<T>>> Edges { get; }
         IEnumerable<IVertex<T>> Vertices { get; }
+
+        IPathFinder<T> CreatePathFinder(PathType pathType);
     }
 }

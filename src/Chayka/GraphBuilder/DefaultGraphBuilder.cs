@@ -1,10 +1,7 @@
 ﻿namespace Chayka.GraphBuilder
 {
-    using System.Collections.Generic;
-    using Chayka.PathFinder;
-    using Chayka.PathFinder.LongestPath;
     using Chayka.PathFinder.RandomWalk;
-    using Chayka.PathFinder.ShortestPath;
+    using System.Collections.Generic;
 
     public class DefaultGraphBuilder<T>
         : IGraphBuilder<T>
@@ -34,12 +31,9 @@
             return this;
         }
 
-        public IPathFinder<T> CreatePathFinder(PathType pathType)
+        public IGraph<T> Build()
         {
-            if (pathType.Equals(PathType.Shortest)) return new ShortestPathFinder<T>(this.vertices, this.edges);
-            if (pathType.Equals(PathType.Longest)) return new LongestPathFinder<T>(this.vertices, this.edges);
-            if (pathType.Equals(PathType.Random)) return new RandomWalkPathFinder<T>(this.randomWalkSessionFactory, this.edges);
-            return null;
+            return new DefaultGraph<T>(this.randomWalkSessionFactory, this.vertices, this.edges);
         }
     }
 }
