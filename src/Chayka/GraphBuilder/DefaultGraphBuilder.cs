@@ -21,12 +21,37 @@
 
         public IGraphBuilder<T> AddVertex(IVertex<T> vertex)
         {
+            if (vertex == null || Equals(null, vertex.Content))
+            {
+                throw GraphConstructionException.NullVertex;
+            }
+
+            if (this.vertices.Contains(vertex))
+            {
+                throw GraphConstructionException.NonUniqueVertex(vertex);
+            }
+
             this.vertices.Add(vertex);
             return this;
         }
 
         public IGraphBuilder<T> AddEdge(IEdge<IVertex<T>> edge)
         {
+            if (edge == null)
+            {
+                throw GraphConstructionException.NullEdge;
+            }
+
+            if (Equals(null, edge.Source))
+            {
+                throw GraphConstructionException.NullEdgeSource;
+            }
+
+            if (Equals(null, edge.Target))
+            {
+                throw GraphConstructionException.NullEdgeTarget;
+            }
+
             this.edges.Add(edge);
             return this;
         }

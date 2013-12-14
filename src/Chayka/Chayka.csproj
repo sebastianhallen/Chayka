@@ -56,6 +56,7 @@
     <Compile Include="DefaultGraphWalker.cs" />
     <Compile Include="GraphBuilder\DefaultGraphBuilder.cs" />
     <Compile Include="GraphBuilder\DefaultGraphBuilderExtensions.cs" />
+    <Compile Include="GraphBuilder\GraphConstructionException.cs" />
     <Compile Include="GraphBuilder\QuickGraphEdge.cs" />
     <Compile Include="IGraphWalker.cs" />
     <Compile Include="IGraph.cs" />

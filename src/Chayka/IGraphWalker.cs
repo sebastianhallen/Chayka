@@ -4,6 +4,7 @@
 
     public interface IGraphWalker<in T>
     {
-        void Walk(T souce, T target, PathType pathType);
+        void WalkBetween(T souce, T target, PathType pathType);
+        void RandomWalk(T startVertex, int steps);
     }
 }
