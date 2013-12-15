@@ -19,6 +19,11 @@
             this.edges = new List<IEdge<IVertex<T>>>();
         }
 
+        public IEnumerable<IVertex<T>> Vertices
+        {
+            get { return this.vertices; }
+        }
+
         public IGraphBuilder<T> AddVertex(IVertex<T> vertex)
         {
             if (vertex == null || Equals(null, vertex.Content))

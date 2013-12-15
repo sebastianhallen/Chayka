@@ -48,7 +48,23 @@
 
             this.walker.RandomWalk(100, 2);
 
+            A.CallTo(() => startEdge.OnTraverse()).MustHaveHappened();
             A.CallTo(() => nextEdge.OnTraverse()).MustHaveHappened();
+        }
+
+        [Test]
+        public void Should_call_OnEntry_on_each_visited_vertex_in_a_random_walk()
+        {
+            var source = A.Fake<IVertex<int>>();
+            var target = A.Fake<IVertex<int>>();
+            var edge = A.Fake<IEdge<IVertex<int>>>();
+            A.CallTo(() => this.vertexFinder.Find(this.graph, 100)).Returns(source);
+            A.CallTo(() => this.edgeFinder.FindEgesFrom(this.graph, source, this.edgeChecker)).Returns(new[] {edge});
+            A.CallTo(() => edge.Target).Returns(target);
+
+            this.walker.RandomWalk(100, 1);
+
+            A.CallTo(() => target.OnEntry()).MustHaveHappened();
         }
 
         [Test]

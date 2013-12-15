@@ -33,7 +33,6 @@
             get { return this.currentStateField; }
             set
             {
-                Console.WriteLine("Changing state: " + value);
                 this.currentStateField = value;
             }
         }

@@ -78,5 +78,26 @@
 
             Assert.That(exception.Message, Is.EqualTo("Cannot add an edge without a target vertex."));
         }
+
+        [Test]
+        public void Must_add_source_vertex_before_adding_an_edge()
+        {
+            var builder = new DefaultGraphBuilder<object>();
+
+            var exception = Assert.Throws<GraphConstructionException>(() => builder.AddEdge(new object(), new object(), () => {}));
+
+            Assert.That(exception.Message, Is.EqualTo("Must add source and target vertices before adding an edge."));
+        }
+
+        [Test]
+        public void Must_add_target_vertex_before_adding_an_edge()
+        {
+            var builder = new DefaultGraphBuilder<int>();
+            builder.AddVertex(0);
+
+            var exception = Assert.Throws<GraphConstructionException>(() => builder.AddEdge(0, 1, () => {}));
+
+            Assert.That(exception.Message, Is.EqualTo("Must add source and target vertices before adding an edge."));
+        }
     }
 }

@@ -32,6 +32,7 @@
             foreach (var edge in path)
             {
                 edge.OnTraverse();
+                edge.Target.OnEntry();
             }
         }
 
@@ -43,7 +44,7 @@
             {
                 throw GraphLookupException.VertexNotFound(startVertex);
             }
-
+            
             for (var i = 0; i < steps; ++i)
             {
                 var currentEdge = (from edge in this.edgeFinder.FindEgesFrom(this.graph, currentVertex, this.edgeChecker)
@@ -58,6 +59,7 @@
                 currentEdge.OnTraverse();
 
                 currentVertex = currentEdge.Target;
+                currentVertex.OnEntry();
             }
         }
     }

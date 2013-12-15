@@ -1,11 +1,25 @@
 ﻿namespace Chayka
 {
+    using System;
     using System.Collections.Generic;
 
     public class DefaultVertex<T>
         : IVertex<T>
     {
+        private readonly Action onEntry;
+
+        public DefaultVertex(T content, Action onEntry)
+        {
+            this.onEntry = onEntry;
+            this.Content = content;
+        }
+
         public T Content { get; private set; }
+
+        public void OnEntry()
+        {
+            this.onEntry();
+        }
 
         protected bool Equals(DefaultVertex<T> other)
         {
@@ -28,11 +42,6 @@
         public override int GetHashCode()
         {
             return EqualityComparer<T>.Default.GetHashCode(Content);
-        }
-
-        public DefaultVertex(T content)
-        {
-            this.Content = content;
         }
     }
 }

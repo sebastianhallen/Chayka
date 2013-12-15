@@ -41,5 +41,18 @@
             A.CallTo(() => this.graph.CreatePathFinder(pathType)).MustHaveHappened();
         }
 
+        [Test]
+        public void Should_execute_OnEntry_for_each_visited_vertex()
+        {
+            var target = A.Fake<IVertex<int>>();
+            var edge = A.Fake<IEdge<IVertex<int>>>();
+            A.CallTo(() => edge.Target).Returns(target);
+            A.CallTo(() => this.pathFinder.PathBetween(A<IVertex<int>>._, A<IVertex<int>>._)).Returns(new[] { edge });
+
+            walker.WalkBetween(0, 2, PathType.Shortest);
+
+            A.CallTo(() => target.OnEntry()).MustHaveHappened();
+        }
+
     }
 }

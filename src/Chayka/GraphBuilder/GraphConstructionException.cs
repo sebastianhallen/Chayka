@@ -48,5 +48,13 @@
                 return new GraphConstructionException("Cannot add an edge without a target vertex.");
             }
         }
+
+        public static Exception AddingEdgeBeforeVertex
+        {
+            get
+            {
+                return new GraphConstructionException("Must add source and target vertices before adding an edge.");
+            }
+        }
     }
 }

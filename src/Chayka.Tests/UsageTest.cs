@@ -34,11 +34,11 @@
             var randomizer = new DefaultRandomizer(1337);
             this.app = new SearchAndFavoriteActions();
             this.model = new DefaultGraphBuilder<State>()
-                .AddVertex(State.Search)
-                .AddVertex(State.SingleItem)
-                .AddVertex(State.SearchResult)
-                .AddVertex(State.Favorites)
-                .AddVertex(State.FavoriteItem)
+                .AddVertex(State.Search, () => Console.WriteLine("In Search"))
+                .AddVertex(State.SingleItem, () => Console.WriteLine("In SingleItem"))
+                .AddVertex(State.SearchResult, () => Console.WriteLine("In SearchResult"))
+                .AddVertex(State.Favorites, () => Console.WriteLine("In Favorites"))
+                .AddVertex(State.FavoriteItem, () => Console.WriteLine("In FavoriteItem"))
 
                 .AddEdge(State.SingleItem, State.Search, () =>
                     {
