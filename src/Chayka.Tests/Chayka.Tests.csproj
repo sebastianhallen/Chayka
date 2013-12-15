@@ -67,6 +67,10 @@
     <Compile Include="Walker\WalkerTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Chayka.Visualization.Wpf\Chayka.Visualization.Wpf.csproj">
+      <Project>{69be229e-d286-406f-8555-92085faeb3a1}</Project>
+      <Name>Chayka.Visualization.Wpf</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Chayka\Chayka.csproj">
       <Project>{a238c978-da09-41b7-bce8-531715a2fb14}</Project>
       <Name>Chayka</Name>

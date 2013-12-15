@@ -12,6 +12,7 @@
     using Chayka.Tests.ExampleApp;
     using Chayka.Walker;
     using NUnit.Framework;
+    using Chayka.Visualization.Wpf;
 
     [TestFixture]
     public class UsageTest
@@ -19,6 +20,8 @@
         private ISearchAndFavoriteActions app;
         private IGraph<State> model;
         private IGraphWalker<State> walker;
+        
+
         private enum State
         {
             Search,
@@ -122,13 +125,13 @@
             var edgeFinder = new DefaultEdgeFinder<State>();
             var edgeChecker = new EdgeCheckingTraverseableEdgeChecker<State>();
             
-            this.walker = new DefaultGraphWalker<State>(this.model, vertexFinder, edgeFinder, randomizer, edgeChecker);
+            this.walker = new DefaultGraphWalker<State>(this.model, vertexFinder, edgeFinder, randomizer, edgeChecker);   
         }
 
         [Test]
         public void Should_be_able_to_walk_between_search_and_favorite_item()
         {
-            //note that shortest path does not work with the current offline path builder used
+            //note that shortest path does not work here with the current offline path builder
             this.walker.WalkBetween(State.Search, State.FavoriteItem, PathType.Longest);
         }
 
@@ -136,6 +139,24 @@
         public void Should_be_able_to_do_a_random_walk_with_a_fixed_number_of_steps()
         {
             this.walker.RandomWalk(State.Search, 1000);
+        }
+
+        [Test, Explicit]
+        public void VisualizationRotation()
+        {
+            GraphVisualization.SetGraph(this.model);
+            System.Threading.Thread.Sleep(5000);
+            GraphVisualization.SetGraph(ExampleGraphs.BiDirectional4X4Mesh);
+            System.Threading.Thread.Sleep(5000);
+            GraphVisualization.SetGraph(ExampleGraphs.BiDirectional4X4);
+            System.Threading.Thread.Sleep(5000);
+            GraphVisualization.SetGraph(ExampleGraphs.BiDirectionalPyramid);
+            System.Threading.Thread.Sleep(5000);
+            GraphVisualization.SetGraph(ExampleGraphs.UniDirectedLinear);
+            System.Threading.Thread.Sleep(5000);
+            GraphVisualization.SetGraph(ExampleGraphs.UniDirectedSquare);
+            System.Threading.Thread.Sleep(5000);
+            GraphVisualization.SetGraph(ExampleGraphs.WeightedBiDirectional);
         }
     }
 }
