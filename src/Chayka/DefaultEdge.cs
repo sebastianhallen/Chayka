@@ -6,10 +6,10 @@
     public class DefaultEdge<T>
         : IEdge<T>
     {
-        private readonly Action<T> onTraverse;
+        private readonly Action onTraverse;
         private readonly Func<bool> isWalkable;
 
-        public DefaultEdge(T source, T target, Action<T> onTraverse, Func<bool> isWalkable = null, double weight = 1)
+        public DefaultEdge(T source, T target, Action onTraverse, Func<bool> isWalkable = null, double weight = 1)
         {
             this.onTraverse = onTraverse;
             this.isWalkable = isWalkable;
@@ -24,7 +24,7 @@
         
         public void OnTraverse()
         {
-            this.onTraverse(this.Source);
+            this.onTraverse();
         }
 
         public bool IsWalkable()

@@ -40,79 +40,77 @@
                 .AddVertex(State.Favorites)
                 .AddVertex(State.FavoriteItem)
 
-                .AddEdge(State.SingleItem, State.Search, _ =>
+                .AddEdge(State.SingleItem, State.Search, () =>
                     {
                         Console.WriteLine("opening search");
                         this.app.OpenSearch();
                     })
-                .AddEdge(State.SingleItem, State.FavoriteItem, _ =>
+                .AddEdge(State.SingleItem, State.FavoriteItem, () =>
                     {
                         Console.WriteLine("adding to favorites");
                         this.app.AddItemToFavorites();
-                    }, () => this.app.IsCurrentItemFavorited)
-                .AddEdge(State.SingleItem, State.Favorites, _ =>
-                    {
-                        Console.WriteLine("opening favorites");
-                        this.app.AddItemToFavorites();
-                    })
-                .AddEdge(State.SearchResult, State.SingleItem, _ =>
-                    {
-                        Console.WriteLine("opening item");
-                        //STATE DEPENDENT
-                        var wantedItem = (from item in this.app.CurrentSearchResults
-                                          orderby randomizer.NextInt(int.MaxValue)
-                                         select item).First();
-                        this.app.OpenItem(wantedItem);
-                    })
-                .AddEdge(State.SearchResult, State.Favorites, _ =>
+                    }, () => !this.app.IsCurrentItemFavorited)
+                .AddEdge(State.SingleItem, State.Favorites, () =>
                     {
                         Console.WriteLine("opening favorites");
                         this.app.OpenFavorites();
                     })
-                .AddEdge(State.SearchResult, State.Search, _ =>
+                .AddEdge(State.SearchResult, State.SingleItem, () =>
+                    {
+                        Console.WriteLine("opening item");
+                        var wantedItem = (from item in this.app.CurrentSearchResults
+                                          orderby randomizer.NextInt(int.MaxValue)
+                                          select item).First();
+                        this.app.OpenItem(wantedItem);
+                    })
+                .AddEdge(State.SearchResult, State.Favorites, () =>
+                    {
+                        Console.WriteLine("opening favorites");
+                        this.app.OpenFavorites();
+                    })
+                .AddEdge(State.SearchResult, State.Search, () =>
                     {
                         Console.WriteLine("opening search");
                         this.app.OpenSearch();
                     })
-                .AddEdge(State.Search, State.SearchResult, _ =>
+                .AddEdge(State.Search, State.SearchResult, () =>
                     {
                         Console.WriteLine("performing search");
-                        //STATE DEPENDENT
                         var query = (from term in this.app.Queries
                                      orderby randomizer.NextInt(int.MaxValue)
                                      select term).First();
                         this.app.PerformSearch(query);
                     })
-                .AddEdge(State.Search, State.Favorites, _ =>
+                .AddEdge(State.Search, State.Favorites, () =>
                     {
                         Console.WriteLine("opening favorites");
                         this.app.OpenFavorites();
                     })
-                .AddEdge(State.Favorites, State.Search, _ =>
+                .AddEdge(State.Favorites, State.Search, () =>
                     {
                         Console.WriteLine("opening search");
                         this.app.OpenSearch();
                     })
-                .AddEdge(State.Favorites, State.FavoriteItem, _ =>
+                .AddEdge(State.Favorites, State.FavoriteItem, () =>
                     {
                         Console.WriteLine("opening favorite item");
-                        //STATE DEPENDENT
+                        //requires favorited items: (State.SingleItem) -> (State.FavoriteItem)
                         var item = (from favorite in this.app.Favorites
                                     orderby randomizer.NextInt(int.MaxValue)
                                     select favorite).First();
                         this.app.OpenFavoriteItem(item);
                     }, () => this.app.HasFavorites)
-                .AddEdge(State.FavoriteItem, State.Favorites, _ =>
+                .AddEdge(State.FavoriteItem, State.Favorites, () =>
                     {
                         Console.WriteLine("unfavoriting item");
                         this.app.RemoteItemFromFavorites();
                     })
-                .AddEdge(State.FavoriteItem, State.Favorites, _ =>
+                .AddEdge(State.FavoriteItem, State.Favorites, () =>
                     {
                         Console.WriteLine("opening favorites");
                         this.app.OpenFavorites();
                     })
-                .AddEdge(State.FavoriteItem, State.Search, _ =>
+                .AddEdge(State.FavoriteItem, State.Search, () =>
                     {
                         Console.WriteLine("opening search");
                         this.app.OpenSearch();
@@ -137,7 +135,7 @@
         [Test]
         public void Should_be_able_to_do_a_random_walk_with_a_fixed_number_of_steps()
         {
-            this.walker.RandomWalk(State.Search, 100);
+            this.walker.RandomWalk(State.Search, 1000);
         }
     }
 }
