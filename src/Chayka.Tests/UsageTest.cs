@@ -126,10 +126,10 @@
         }
 
         [Test]
-        [Explicit]
         public void Should_be_able_to_walk_between_search_and_favorite_item()
         {
-            this.walker.WalkBetween(State.Search, State.FavoriteItem, PathType.Shortest);
+            //note that shortest path does not work with the current offline path builder used
+            this.walker.WalkBetween(State.Search, State.FavoriteItem, PathType.Longest);
         }
 
         [Test]
