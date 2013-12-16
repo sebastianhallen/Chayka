@@ -15,19 +15,14 @@
             try
             {
                 var graphContent = Serialize(graph);
-                var ipHostInfo = Dns.Resolve(Dns.GetHostName());
-                var ipAddress = ipHostInfo.AddressList[0];
-                var remoteEndPoint = new IPEndPoint(ipAddress, GraphVisualizationServer.Port);
 
-                var sender = new Socket(AddressFamily.InterNetwork,
-                                        SocketType.Stream, ProtocolType.Tcp);
-
+                var remoteEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), GraphVisualizationServer.Port);
+                var sender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 sender.Connect(remoteEndPoint);
 
                 var msg = Encoding.ASCII.GetBytes(graphContent + GraphVisualizationServer.EndOfMessageMarker);
 
                 sender.Send(msg);
-
                 sender.Shutdown(SocketShutdown.Both);
                 sender.Close();
 

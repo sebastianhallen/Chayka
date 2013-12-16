@@ -145,6 +145,7 @@
         public void VisualizationRotation()
         {
             GraphVisualization.SetGraph(this.model);
+            return;
             System.Threading.Thread.Sleep(5000);
             GraphVisualization.SetGraph(ExampleGraphs.BiDirectional4X4Mesh);
             System.Threading.Thread.Sleep(5000);

@@ -15,15 +15,9 @@
 
         public GraphVisualizationServer()
         {
-            var ipHostInfo = Dns.Resolve(Dns.GetHostName());
-            var ipAddress = ipHostInfo.AddressList[0];
-            var localEndPoint = new IPEndPoint(ipAddress, Port);
+            var localEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), Port);
 
-            this.listener = new Socket(AddressFamily.InterNetwork,
-                                       SocketType.Stream, ProtocolType.Tcp);
-
-
-
+            this.listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             this.listener.Bind(localEndPoint);
             this.listener.Listen(10);
         }

@@ -1,22 +1,29 @@
 ﻿<Window x:Class="Chayka.Visualization.Wpf.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:graphsharp="clr-namespace:GraphSharp.Controls;assembly=GraphSharp.Controls"
         xmlns:local="clr-namespace:Chayka.Visualization.Wpf"
         xmlns:zoom="clr-namespace:WPFExtensions.Controls;assembly=WPFExtensions"
         Title="MainWindow" Height="600" Width="800">
+    
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/PocGraphDataTemplates.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
-        <zoom:ZoomControl  Grid.Row="1"  Zoom="0.2" ZoomBoxOpacity="0.5" Background="#ff656565">
+        <zoom:ZoomControl  Grid.Row="1" ZoomBoxOpacity="0.1" Background="#ff656565">
             
             <local:GraphLayout 
-                    x:Name="graphLayout" 
+                    x:Name="GraphLayout" 
                     Margin="10"
                     Graph="{Binding Path=Graph}"
-                    LayoutAlgorithmType="{Binding Path=LayoutAlgorithm, Mode=OneWay}"
+                    LayoutAlgorithmType="{Binding Path=LayoutAlgorithmType, Mode=OneWay}"
                     OverlapRemovalAlgorithmType="FSA"
                     HighlightAlgorithmType="Simple"
-                />
+             />
 
         </zoom:ZoomControl>
     </Grid>
-</Window>
+</Window> 

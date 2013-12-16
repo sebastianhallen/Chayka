@@ -9,14 +9,14 @@
     internal class MainWindowViewModel
         : INotifyPropertyChanged
     {
-        private string layoutAlgorithmField;
-        public string LayoutAlgorithm
+        private string layoutAlgorithmTypeField;
+        public string LayoutAlgorithmType
         {
-            get { return this.layoutAlgorithmField; }
+            get { return this.layoutAlgorithmTypeField; }
             set
             {
-                this.layoutAlgorithmField = value;
-                this.OnPropertyChanged("LayoutAlgorithm");
+                this.layoutAlgorithmTypeField = value;
+                this.OnPropertyChanged("LayoutAlgorithmType");
             }
         }
 
@@ -53,9 +53,27 @@
         public MainWindowViewModel()
         {
             //this.LayoutAlgorithm = this.LayoutAlgorithms.Skip(3).First();
-            //this.LayoutAlgorithm = "EfficientSugiyama";
-            this.LayoutAlgorithm = "KK";
+            //this.LayoutAlgorithmType = "EfficientSugiyama";
+            //this.LayoutAlgorithm = "KK";
+
+            this.worker = new BackgroundWorker();
+            this.worker.DoWork += (sender, args) =>
+                {
+                    System.Threading.Thread.Sleep(5000);
+                    var skip = (int)args.Argument;
+
+                    this.LayoutAlgorithmType = this.LayoutAlgorithms.Skip(skip).First();
+
+                    if (++skip >= this.LayoutAlgorithms.Count()) skip = -1;
+                    args.Result = skip;
+
+
+                };
+            this.worker.RunWorkerCompleted += (sender, args) => this.worker.RunWorkerAsync(args.Result);
+            this.worker.RunWorkerAsync(0);
         }
+
+        private BackgroundWorker worker;
 
         public event PropertyChangedEventHandler PropertyChanged;
 

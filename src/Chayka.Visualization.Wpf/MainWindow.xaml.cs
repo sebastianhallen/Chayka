@@ -1,27 +1,15 @@
 ﻿namespace Chayka.Visualization.Wpf
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Data;
-    using System.Windows.Documents;
-    using System.Windows.Input;
-    using System.Windows.Media;
-    using System.Windows.Media.Imaging;
-    using System.Windows.Navigation;
-    using System.Windows.Shapes;
-    using System.ComponentModel;
     using GraphSharp.Algorithms.Layout.Simple.FDP;
     using GraphSharp.Algorithms.Layout.Simple.Hierarchical;
+    using System.ComponentModel;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
+        : Window
     {
         private readonly MainWindowViewModel viewModel;
         private readonly BackgroundWorker worker;
@@ -46,18 +34,22 @@
 
             this.worker.RunWorkerAsync();
 
-            var sugiyamaLayoutParameters = this.graphLayout.LayoutParameters as EfficientSugiyamaLayoutParameters;
+            var sugiyamaLayoutParameters = this.GraphLayout.LayoutParameters as EfficientSugiyamaLayoutParameters;
             if (sugiyamaLayoutParameters != null)
             {
                 sugiyamaLayoutParameters.EdgeRouting = SugiyamaEdgeRoutings.Orthogonal;
-                sugiyamaLayoutParameters.MinimizeEdgeLength = true;
-                sugiyamaLayoutParameters.VertexDistance = 10;
+                sugiyamaLayoutParameters.MinimizeEdgeLength = false;
+                sugiyamaLayoutParameters.OptimizeWidth = true;
+                sugiyamaLayoutParameters.VertexDistance = 100;
+                sugiyamaLayoutParameters.LayerDistance = 100;
+                //sugiyamaLayoutParameters.PositionMode = 0;
             }
 
-            var kkLayoutParameters = this.graphLayout.LayoutParameters as KKLayoutParameters;
+            var kkLayoutParameters = this.GraphLayout.LayoutParameters as KKLayoutParameters;
             if (kkLayoutParameters != null)
             {
                 kkLayoutParameters.AdjustForGravity = false;
+                
                 
             }
         }
