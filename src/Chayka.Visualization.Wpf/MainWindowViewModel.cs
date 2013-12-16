@@ -52,25 +52,25 @@
 
         public MainWindowViewModel()
         {
-            //this.LayoutAlgorithm = this.LayoutAlgorithms.Skip(3).First();
+            //this.LayoutAlgorithmType = this.LayoutAlgorithms.Skip(3).First();
             //this.LayoutAlgorithmType = "EfficientSugiyama";
-            //this.LayoutAlgorithm = "KK";
+            this.LayoutAlgorithmType = "KK";
 
-            this.worker = new BackgroundWorker();
-            this.worker.DoWork += (sender, args) =>
-                {
-                    System.Threading.Thread.Sleep(5000);
-                    var skip = (int)args.Argument;
+            //this.worker = new BackgroundWorker();
+            //this.worker.DoWork += (sender, args) =>
+            //    {
+            //        System.Threading.Thread.Sleep(5000);
+            //        var skip = (int)args.Argument;
 
-                    this.LayoutAlgorithmType = this.LayoutAlgorithms.Skip(skip).First();
+            //        this.LayoutAlgorithmType = this.LayoutAlgorithms.Skip(skip).First();
 
-                    if (++skip >= this.LayoutAlgorithms.Count()) skip = -1;
-                    args.Result = skip;
+            //        if (++skip >= this.LayoutAlgorithms.Count()) skip = 1;
+            //        args.Result = skip;
 
 
-                };
-            this.worker.RunWorkerCompleted += (sender, args) => this.worker.RunWorkerAsync(args.Result);
-            this.worker.RunWorkerAsync(0);
+            //    };
+            //this.worker.RunWorkerCompleted += (sender, args) => this.worker.RunWorkerAsync(args.Result);
+            //this.worker.RunWorkerAsync(0);
         }
 
         private BackgroundWorker worker;

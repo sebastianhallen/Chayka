@@ -24,7 +24,9 @@
             this.worker.RunWorkerCompleted += (sender, args) =>
                 {
                     var graph = (VisualizationGraph)args.Result;
+                    this.ConfigureLayout();
                     this.viewModel.Graph = graph;
+                    
                     this.worker.RunWorkerAsync();
                 };
                 
@@ -34,23 +36,28 @@
 
             this.worker.RunWorkerAsync();
 
+            
+        }
+
+        private void ConfigureLayout()
+        {
             var sugiyamaLayoutParameters = this.GraphLayout.LayoutParameters as EfficientSugiyamaLayoutParameters;
             if (sugiyamaLayoutParameters != null)
             {
                 sugiyamaLayoutParameters.EdgeRouting = SugiyamaEdgeRoutings.Orthogonal;
-                sugiyamaLayoutParameters.MinimizeEdgeLength = false;
+                sugiyamaLayoutParameters.MinimizeEdgeLength = true;
                 sugiyamaLayoutParameters.OptimizeWidth = true;
-                sugiyamaLayoutParameters.VertexDistance = 100;
-                sugiyamaLayoutParameters.LayerDistance = 100;
-                //sugiyamaLayoutParameters.PositionMode = 0;
+                sugiyamaLayoutParameters.VertexDistance = 30;
+                sugiyamaLayoutParameters.LayerDistance = 30;
+                //sugiyamaLayoutParameters.PositionMode = -1;
             }
 
             var kkLayoutParameters = this.GraphLayout.LayoutParameters as KKLayoutParameters;
             if (kkLayoutParameters != null)
             {
                 kkLayoutParameters.AdjustForGravity = false;
-                
-                
+
+
             }
         }
     }
