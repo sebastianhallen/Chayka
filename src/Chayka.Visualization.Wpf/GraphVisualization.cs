@@ -15,22 +15,40 @@
             try
             {
                 var graphContent = Serialize(graph);
-
-                var remoteEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), GraphVisualizationServer.Port);
-                var sender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                sender.Connect(remoteEndPoint);
-
-                var msg = Encoding.ASCII.GetBytes(graphContent + GraphVisualizationServer.EndOfMessageMarker);
-
-                sender.Send(msg);
-                sender.Shutdown(SocketShutdown.Both);
-                sender.Close();
-
+                Send(Command.SetGraph, graphContent);
             }
             catch (Exception e)
             {
                 Console.WriteLine("Failed to set graph: " + e);
             }
+        }
+
+        public static void SetActiveVertex<T>(T vertex)
+        {
+            try
+            {
+                Send(Command.SetActiveVertex, vertex.ToString());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Failed to set active vertex: " + e);
+            }
+        }
+
+        private static void Send(Command command, string content)
+        {
+
+            var remoteEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), GraphVisualizationServer.Port);
+            var sender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            sender.Connect(remoteEndPoint);
+
+            var msg = Encoding.ASCII.GetBytes(
+                command + GraphVisualizationServer.EndOfCommandMarker +
+                content + GraphVisualizationServer.EndOfContentMarker);
+
+            sender.Send(msg);
+            sender.Shutdown(SocketShutdown.Both);
+            sender.Close();
         }
 
         private static string Serialize<T>(IGraph<T> graph)

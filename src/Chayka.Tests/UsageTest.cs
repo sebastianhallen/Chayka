@@ -37,11 +37,11 @@
             var randomizer = new DefaultRandomizer(1337);
             this.app = new SearchAndFavoriteActions();
             this.model = new DefaultGraphBuilder<State>()
-                .AddVertex(State.Search, () => Console.WriteLine("In Search"))
-                .AddVertex(State.SingleItem, () => Console.WriteLine("In SingleItem"))
-                .AddVertex(State.SearchResult, () => Console.WriteLine("In SearchResult"))
-                .AddVertex(State.Favorites, () => Console.WriteLine("In Favorites"))
-                .AddVertex(State.FavoriteItem, () => Console.WriteLine("In FavoriteItem"))
+                .AddVertex(State.Search, () => { Console.WriteLine("In Search"); GraphVisualization.SetActiveVertex(State.Search); })
+                .AddVertex(State.SingleItem, () => { Console.WriteLine("In SingleItem"); GraphVisualization.SetActiveVertex(State.SingleItem); })
+                .AddVertex(State.SearchResult, () => { Console.WriteLine("In SearchResult"); GraphVisualization.SetActiveVertex(State.SearchResult); })
+                .AddVertex(State.Favorites, () => { Console.WriteLine("In Favorites"); GraphVisualization.SetActiveVertex(State.Favorites); })
+                .AddVertex(State.FavoriteItem, () => { Console.WriteLine("In FavoriteItem"); GraphVisualization.SetActiveVertex(State.FavoriteItem); })
 
                 .AddEdge(State.SingleItem, State.Search, () =>
                     {
@@ -138,6 +138,7 @@
         [Test]
         public void Should_be_able_to_do_a_random_walk_with_a_fixed_number_of_steps()
         {
+            GraphVisualization.SetGraph(this.model);
             this.walker.RandomWalk(State.Search, 1000);
         }
 
@@ -145,7 +146,6 @@
         public void VisualizationRotation()
         {
             GraphVisualization.SetGraph(this.model);
-            return;
             System.Threading.Thread.Sleep(5000);
             GraphVisualization.SetGraph(ExampleGraphs.BiDirectional4X4Mesh);
             System.Threading.Thread.Sleep(5000);

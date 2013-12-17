@@ -20,13 +20,25 @@
             this.viewModel = new MainWindowViewModel();
             this.graphVisualizationServer = new GraphVisualizationServer();
             this.worker = new BackgroundWorker();
-            this.worker.DoWork += (sender, args) => args.Result = this.graphVisualizationServer.GetGraph();
+            this.worker.DoWork += (sender, args) => args.Result = this.graphVisualizationServer.GetCommand();
             this.worker.RunWorkerCompleted += (sender, args) =>
                 {
-                    var graph = (VisualizationGraph)args.Result;
-                    this.ConfigureLayout();
-                    this.viewModel.Graph = graph;
-                    
+                    var command = args.Result as IVisualizationUpdateCommand;
+                    if (command is SetGraphCommand)
+                    {
+                        var graph = (VisualizationGraph)command.Content;
+                        this.ConfigureLayout();
+                        this.viewModel.Graph = graph;
+                    }
+
+                    if (command is SetActiveVertexCommand)
+                    {
+                        var vertex = (VisualizationVertex)command.Content;
+                        this.GraphLayout.HighlightAlgorithm.ResetHighlight();
+                        this.GraphLayout.HighlightVertex(vertex, "None");
+                    }
+
+
                     this.worker.RunWorkerAsync();
                 };
                 
