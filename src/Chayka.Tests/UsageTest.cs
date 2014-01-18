@@ -34,14 +34,15 @@
         [SetUp]
         public void Before()
         {
+            VertexFactory.VertexBuilder = new VisualizationVertexBuilder();
             var randomizer = new DefaultRandomizer(1337);
             this.app = new SearchAndFavoriteActions();
             this.model = new DefaultGraphBuilder<State>()
-                .AddVertex(State.Search, () => { Console.WriteLine("In Search"); GraphVisualization.SetActiveVertex(State.Search); })
-                .AddVertex(State.SingleItem, () => { Console.WriteLine("In SingleItem"); GraphVisualization.SetActiveVertex(State.SingleItem); })
-                .AddVertex(State.SearchResult, () => { Console.WriteLine("In SearchResult"); GraphVisualization.SetActiveVertex(State.SearchResult); })
-                .AddVertex(State.Favorites, () => { Console.WriteLine("In Favorites"); GraphVisualization.SetActiveVertex(State.Favorites); })
-                .AddVertex(State.FavoriteItem, () => { Console.WriteLine("In FavoriteItem"); GraphVisualization.SetActiveVertex(State.FavoriteItem); })
+                .AddVertex(State.Search, () => Console.WriteLine("In Search"))
+                .AddVertex(State.SingleItem, () => Console.WriteLine("In SingleItem"))
+                .AddVertex(State.SearchResult, () => Console.WriteLine("In SearchResult"))
+                .AddVertex(State.Favorites, () => Console.WriteLine("In Favorites"))
+                .AddVertex(State.FavoriteItem, () => Console.WriteLine("In FavoriteItem"))
 
                 .AddEdge(State.SingleItem, State.Search, () =>
                     {
@@ -158,6 +159,12 @@
             GraphVisualization.SetGraph(ExampleGraphs.UniDirectedSquare);
             System.Threading.Thread.Sleep(5000);
             GraphVisualization.SetGraph(ExampleGraphs.WeightedBiDirectional);
+        }
+
+        [TearDown]
+        public void AfterEach()
+        {
+            VertexFactory.VertexBuilder = null;
         }
     }
 }

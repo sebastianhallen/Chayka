@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using Chayka.GraphBuilder;
     using Chayka.Lookup;
     using FakeItEasy;
     using NUnit.Framework;
@@ -26,8 +27,8 @@
         {
             this.edgeFinder = new DefaultEdgeFinder<int>();
             this.graph = A.Fake<IGraph<int>>();
-            this.matchingVertex = new DefaultVertex<int>(123, (() => { }));
-            this.nonMatchingVertex = new DefaultVertex<int>(321, (() => { }));
+            this.matchingVertex = VertexFactory.Create(123, (() => { }));
+            this.nonMatchingVertex = VertexFactory.Create(321, (() => { }));
             this.e0 = new DefaultEdge<IVertex<int>>(matchingVertex, null, () => { });
             this.e1 = new DefaultEdge<IVertex<int>>(matchingVertex, null, () => { });
             this.e2 = new DefaultEdge<IVertex<int>>(nonMatchingVertex, null, () => { });

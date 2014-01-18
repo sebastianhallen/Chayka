@@ -49,6 +49,7 @@
     <Compile Include="DefaultGraphTests.cs" />
     <Compile Include="EdgeCheckerFake.cs" />
     <Compile Include="ExampleApp\SearchAndFavoriteActions.cs" />
+    <Compile Include="VertexFactoryTests.cs" />
     <Compile Include="GraphBuilderTests.cs" />
     <Compile Include="Lookup\EdgeCheckingTraversableEdgeCheckerTests.cs" />
     <Compile Include="Lookup\EdgeFinderTests.cs" />

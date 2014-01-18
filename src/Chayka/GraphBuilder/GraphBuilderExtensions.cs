@@ -3,11 +3,12 @@
     using System;
     using System.Linq;
 
-    public static class DefaultGraphBuilderExtensions
+    public static class GraphBuilderExtensions
     {
-        public static IGraphBuilder<T> AddVertex<T>(this IGraphBuilder<T> builder, T vertex, Action onEntry = null)
+        public static IGraphBuilder<T> AddVertex<T>(this IGraphBuilder<T> builder, T content, Action onEntry = null)
         {
-            return builder.AddVertex(new DefaultVertex<T>(vertex, onEntry ?? (() => { })));
+            var vertex = VertexFactory.Create(content, onEntry ?? (() => { }));
+            return builder.AddVertex(vertex);
         }
 
         public static IGraphBuilder<T> AddEdge<T>(this IGraphBuilder<T> builder, T source, T target, Action onTraverse, Func<bool> isWalkable = null, double weight = 1)

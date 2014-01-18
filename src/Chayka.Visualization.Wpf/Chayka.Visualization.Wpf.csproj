@@ -76,6 +76,7 @@
     </ApplicationDefinition>
     <Compile Include="GraphVisualization.cs" />
     <Compile Include="GraphVisualizationServer.cs" />
+    <Compile Include="VisualizationVertexBuilder.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

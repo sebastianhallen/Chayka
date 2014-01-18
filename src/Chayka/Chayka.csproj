@@ -53,6 +53,9 @@
   <ItemGroup>
     <Compile Include="DefaultEdge.cs" />
     <Compile Include="DefaultGraph.cs" />
+    <Compile Include="GraphBuilder\DefaultVertexBuilder.cs" />
+    <Compile Include="GraphBuilder\IVertexBuilder.cs" />
+    <Compile Include="GraphBuilder\VertexFactory.cs" />
     <Compile Include="Lookup\AlwaysTrueTraversableEdgeChecker.cs" />
     <Compile Include="Lookup\DefaultEdgeFinder.cs" />
     <Compile Include="Lookup\EdgeCheckingTraverseableEdgeChecker.cs" />
@@ -60,7 +63,7 @@
     <Compile Include="Lookup\IEdgeFinder.cs" />
     <Compile Include="Walker\DefaultGraphWalker.cs" />
     <Compile Include="GraphBuilder\DefaultGraphBuilder.cs" />
-    <Compile Include="GraphBuilder\DefaultGraphBuilderExtensions.cs" />
+    <Compile Include="GraphBuilder\GraphBuilderExtensions.cs" />
     <Compile Include="GraphBuilder\GraphConstructionException.cs" />
     <Compile Include="GraphBuilder\QuickGraphEdge.cs" />
     <Compile Include="Lookup\DefaultVertexFinder.cs" />
